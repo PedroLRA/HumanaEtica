@@ -33,6 +33,10 @@ public class Participation {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
+    public Participation(){
+
+    }
+
     public Participation(ParticipationDto participationDto, Activity activity, Volunteer volunteer) {
        
 
@@ -85,10 +89,10 @@ public class Participation {
 
 
     /*private void verifyInvariants() {
-        -motivação >= 10 caracteres
-        -voluntario nunca participou nesta atividade
-        -o voluntario esta dentro do prazo de candidatura
-        -Apenas um voluntário pode concorrer a uma atividade
+        -O número total de participantes é menor ou igual o número limite de participantes da atividade
+        -Um voluntário apenas pode participar uma vez na atividade
+        -O voluntário apenas pode ser colocado como participante da atividade depois do fim do período de candidatura
+        -Apenas um membro da instituição pode associar um participante à atividade
         -Apenas o membro da instituição da atividade pode obter a lista das suas candidaturas
     }
 */
