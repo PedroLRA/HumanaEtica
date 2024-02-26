@@ -38,7 +38,8 @@ public class Participation {
     }
 
     public Participation(ParticipationDto participationDto, Activity activity, Volunteer volunteer) {
-       
+        setActivity(activity);
+        setVolunteer(volunteer);
 
         //verifyInvariants();
     }
@@ -77,14 +78,18 @@ public class Participation {
 
     public void setActivity(Activity activity){
         this.activity = activity;
+        activity.addParticipations(this);
+
     }
 
-    /*public Volunteer getVolunteer(Volunteer volunteer){
+    /*public Volunteer getVolunteer(){
         return volunteer;
     }
 
     public void setVolunteer(Volunteer volunteer){
         this.volunteer = volunteer;
+        volunteer.addParticipations(this);
+
     }*/
 
 

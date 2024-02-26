@@ -7,6 +7,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
+
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class Activity {
     private LocalDateTime endingDate;
     private LocalDateTime applicationDeadline;
 
+    
+
     @Enumerated(EnumType.STRING)
     private Activity.State state = Activity.State.APPROVED;
 
@@ -45,6 +49,10 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Enrollment> enrollments = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "activity", orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Participation> participations = new ArrayList<>();
+
 
     public Activity() {
     }
@@ -248,6 +256,20 @@ public class Activity {
     public void addEnrollments(Enrollment enrollments) {
         this.enrollments.add(enrollments);
     }
+
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void setParticipations(List<Participation> participations) {
+        this.participations = participations;
+    }
+
+    public void addParticipations(Participation participations) {
+        this.participations.add(participations);
+    }
+
+
 
     private void verifyInvariants() {
         nameIsRequired();

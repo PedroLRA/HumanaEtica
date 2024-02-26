@@ -9,6 +9,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 import java.time.LocalDateTime;
 //import java.util.List;
 
+
 public class ParticipationDto {
     private Integer id;
     private Integer rating;
@@ -16,6 +17,9 @@ public class ParticipationDto {
     private String creationDate;
     private ActivityDto activity;
 
+    public ParticipationDto() {
+
+    }
 
     public ParticipationDto(Participation participation){
         setId(participation.getId());

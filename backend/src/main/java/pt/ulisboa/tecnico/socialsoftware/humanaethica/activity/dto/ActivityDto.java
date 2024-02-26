@@ -2,9 +2,11 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityDto {
@@ -20,6 +22,8 @@ public class ActivityDto {
     private String creationDate;
     private List<ThemeDto> themes;
     private InstitutionDto institution;
+
+    private List<ParticipationDto> participationDto = new ArrayList<>();
 
     public ActivityDto(){
     }
@@ -138,6 +142,14 @@ public class ActivityDto {
 
     public void setParticipantsNumberLimit(Integer participantsNumberLimit) {
         this.participantsNumberLimit = participantsNumberLimit;
+    }
+
+    public List<ParticipationDto>getParticipations() {
+        return participationDto;
+    }
+
+    public void setParticipations(List<ParticipationDto> participationDto) {
+        this.participationDto = participationDto;
     }
 
     @Override
