@@ -82,6 +82,13 @@ public class Participation {
 
     }
 
+    private void canParticipateOnlyOnce() {
+        if (this.volunteer.getParticipations().stream()
+                .anyMatch(participation -> participation != this && participation.getId().equals(this.getId()))) {
+            throw new HEException(VOLUNTEER_HAS_ALREADY_PARTICIPATED_IN_THIS_ACTIVITY, this.volunteer.getId());
+        }
+    }
+
     /*public Volunteer getVolunteer(){
         return volunteer;
     }
