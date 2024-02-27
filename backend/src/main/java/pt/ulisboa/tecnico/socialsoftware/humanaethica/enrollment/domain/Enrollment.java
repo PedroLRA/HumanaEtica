@@ -3,11 +3,15 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain;
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
-import java.time.LocalDateTime;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ACTIVITY_NAME_INVALID;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.MOTIVATION_TOO_SHORT;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVTY;
 
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "enrollment")
@@ -19,15 +23,15 @@ public class Enrollment {
     private Integer id;
     private String motivation;
     private LocalDateTime enrollmentDateTime;
-    
-    //Relations between other entities
+
+    // Relations between other entities
     @ManyToOne
     private Activity activity;
 
     @ManyToOne
     private Volunteer volunteer;
 
-    //Constructors
+    // Constructors
     public Enrollment() {
     }
 
@@ -40,7 +44,7 @@ public class Enrollment {
         // verifyInvariants();
     }
 
-    //Getters & Setters
+    // Getters & Setters
     public Integer getId() {
         return id;
     }
@@ -79,5 +83,25 @@ public class Enrollment {
         volunteer.addEnrollments(this);
     }
 
+    private void verifyInvariants() {
+        motivationHasTenCharacters();
+        canEnrollOnlyOnce();
+        // cannotEnrollAfterDeadline();        
+    }
 
+    private void motivationHasTenCharacters() {
+        if (this.motivation == null || this.motivation.trim().isEmpty() || this.motivation.length() < 10) {
+            throw new HEException(MOTIVATION_TOO_SHORT, this.motivation);
+        }
+    }
+
+    private void canEnrollOnlyOnce() {
+        if (this.volunteer.getEnrollments().stream()
+                .anyMatch(enrollment -> enrollment != this && enrollment.getId().equals(this.getId()))) {
+            throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVTY, this.volunteer.getId());
+        }
+    }
+
+    // private void cannotEnrollAfterDeadline()
+    
 }

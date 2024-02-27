@@ -28,14 +28,14 @@ public class ActivityController {
 
     @PostMapping()
     @PreAuthorize("(hasRole('ROLE_MEMBER'))")
-    public ActivityDto registerActivity(Principal principal, @Valid @RequestBody ActivityDto activityDto){
+    public ActivityDto registerActivity(Principal principal, @Valid @RequestBody ActivityDto activityDto) {
         int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
         return activityService.registerActivity(userId, activityDto);
     }
 
     @PutMapping("/{activityId}")
     @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
-    public ActivityDto updateActivity(@PathVariable int activityId, @Valid @RequestBody ActivityDto activityDto){
+    public ActivityDto updateActivity(@PathVariable int activityId, @Valid @RequestBody ActivityDto activityDto) {
         return activityService.updateActivity(activityId, activityDto);
     }
 

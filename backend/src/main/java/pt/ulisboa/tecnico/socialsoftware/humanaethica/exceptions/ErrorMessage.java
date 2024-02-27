@@ -39,7 +39,13 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_APPROVED("Activity is already approved with name %s"),
     ACTIVITY_ALREADY_EXISTS("Activity already exists in database"),
     ACTIVITY_ALREADY_SUSPENDED("Activity is already suspended with name %s"),
-    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s");
+    ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
+
+    // Enrollment
+
+    MOTIVATION_TOO_SHORT("Motivation: %s, doesn't have ten or more characters"),
+    VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVTY("Volunteer %s can't enroll in the same activty more than once");
+    // last error message needs to be implemented
 
     public final String label;
 
