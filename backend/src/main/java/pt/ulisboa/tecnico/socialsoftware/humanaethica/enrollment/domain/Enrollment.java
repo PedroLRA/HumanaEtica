@@ -9,6 +9,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ACTIVITY_NAME_INVALID;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.MOTIVATION_TOO_SHORT;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVTY;
 
 import java.time.LocalDateTime;
@@ -86,22 +87,26 @@ public class Enrollment {
     private void verifyInvariants() {
         motivationHasTenCharacters();
         canEnrollOnlyOnce();
-        // cannotEnrollAfterDeadline();        
+        // cannotEnrollAfterDeadline();
     }
 
     private void motivationHasTenCharacters() {
-        if (this.motivation == null || this.motivation.trim().isEmpty() || this.motivation.length() < 10) {
+        if (this.motivation == null || this.motivation.trim().length() < 10) {
             throw new HEException(MOTIVATION_TOO_SHORT, this.motivation);
         }
     }
 
+    // getting wrong id, fix to get by activity id bcs enrollment ids are all
+    // different
     private void canEnrollOnlyOnce() {
         if (this.volunteer.getEnrollments().stream()
-                .anyMatch(enrollment -> enrollment != this && enrollment.getId().equals(this.getId()))) {
-            throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVTY, this.volunteer.getId());
+                .anyMatch(enrollment -> enrollment != this
+                        && enrollment.getVolunteer().equals(this.volunteer)
+                        && enrollment.getActivity().equals(this.getActivity()))) {
+            throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY, this.volunteer.getId());
         }
     }
 
     // private void cannotEnrollAfterDeadline()
-    
+
 }

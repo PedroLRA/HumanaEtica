@@ -44,7 +44,7 @@ public enum ErrorMessage {
     // Enrollment
 
     MOTIVATION_TOO_SHORT("Motivation: %s, doesn't have ten or more characters"),
-    VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVTY("Volunteer %s can't enroll in the same activty more than once");
+    VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY("Volunteer %s can't enroll in the same activty more than once");
     // last error message needs to be implemented
 
     public final String label;
