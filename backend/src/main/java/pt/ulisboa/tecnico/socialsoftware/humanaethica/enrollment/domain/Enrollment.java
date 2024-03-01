@@ -7,7 +7,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
-import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ACTIVITY_NAME_INVALID;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ENROLLMENT_DATE_AFTER_DEADLINE;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.MOTIVATION_TOO_SHORT;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY;
 
@@ -41,7 +41,7 @@ public class Enrollment {
         setMotivation(enrollmentDto.getMotivation());
         setEnrollmentDateTime(DateHandler.now());
 
-        // verifyInvariants();
+        verifyInvariants();
     }
 
     // Getters & Setters
@@ -83,15 +83,16 @@ public class Enrollment {
         volunteer.addEnrollments(this);
     }
 
+    //Invariants
     private void verifyInvariants() {
         motivationHasTenCharacters();
         canEnrollOnlyOnce();
-        // cannotEnrollAfterDeadline();
+        cannotEnrollAfterDeadline();        
     }
 
     private void motivationHasTenCharacters() {
         if (this.motivation == null || this.motivation.trim().length() < 10) {
-            throw new HEException(MOTIVATION_TOO_SHORT, this.motivation);
+            throw new HEException(MOTIVATION_TOO_SHORT);
         }
     }
 
@@ -106,6 +107,10 @@ public class Enrollment {
         }
     }
 
-    // private void cannotEnrollAfterDeadline()
-
+    private void cannotEnrollAfterDeadline() {
+        if (this.enrollmentDateTime.isAfter(activity.getApplicationDeadline())) {
+            throw new HEException(ENROLLMENT_DATE_AFTER_DEADLINE);
+        }
+    }
+    
 }
