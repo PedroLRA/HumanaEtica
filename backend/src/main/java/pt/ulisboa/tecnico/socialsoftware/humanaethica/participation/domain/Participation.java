@@ -44,6 +44,7 @@ public class Participation {
         setActivity(activity);
         setRating(rating);
         setAcceptanceDate(acceptanceDate);
+        setVolunteer(volunteer);
 
         verifyInvariants();
     }
@@ -90,42 +91,45 @@ public class Participation {
 
     }
 
-    private void canParticipateOnlyOnce() {
-        if (this.volunteer.getParticipations().stream()
-                .anyMatch(participation -> participation != this && participation.getId().equals(this.getId()))) {
-            throw new HEException(VOLUNTEER_HAS_ALREADY_PARTICIPATED_IN_THIS_ACTIVITY, this.volunteer.getId());
-        }
-    }
-
-    /*public Volunteer getVolunteer(){
+    public Volunteer getVolunteer() {
         return volunteer;
     }
 
-    public void setVolunteer(Volunteer volunteer){
+    public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
         volunteer.addParticipations(this);
+    }
 
-    }*/
 
 
     private void verifyInvariants() {
-        //-O número total de participantes é menor ou igual o número limite de participantes da atividade
+        
         //-Apenas um membro da instituição pode associar um participante à atividade
         //-Apenas o membro da instituição da atividade pode obter a lista das suas candidaturas
         hasLessParticipantsThanTheLimit();
+        volunteerHasNeverParticipated();
         isCreatedAfterApplicationDeadline();
     }
 
 
-private void isCreatedAfterApplicationDeadline() {
-    if (this.acceptanceDate.isBefore(this.activity.getApplicationDeadline())) {
-        throw new HEException(PARTICIPATION_PLACED_ONLY_AFTER_APPLICATION_PERIOD_IS_OVER);
-    }
-}
+
 
 private void hasLessParticipantsThanTheLimit() {
     if (this.activity.getParticipations().size() > this.activity.getParticipantsNumberLimit()) {
         throw new HEException(PARTICIPATION_LIMIT_FOR_ACTIVITY_REACHED);
+    }
+}
+
+private void volunteerHasNeverParticipated() {
+    if (this.volunteer.getParticipations().stream()
+            .anyMatch(participation -> participation != this && participation.getId().equals(this.getId()))) {
+        throw new HEException(PARTICIPATION_ALREADY_HAD_THIS_PARTICIPANT);
+    }
+}
+
+private void isCreatedAfterApplicationDeadline() {
+    if (this.acceptanceDate.isBefore(this.activity.getApplicationDeadline())) {
+        throw new HEException(PARTICIPATION_PLACED_ONLY_AFTER_APPLICATION_PERIOD_IS_OVER);
     }
 }
 

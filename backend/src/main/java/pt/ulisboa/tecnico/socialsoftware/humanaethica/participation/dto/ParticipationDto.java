@@ -68,13 +68,6 @@ public class ParticipationDto {
         this.activity = activity;
     }
 
-    /*public Volunteer getVolunteer(Volunteer volunteer){
-        return volunteer;
-    }
-
-    public void setVolunteer(Volunteer volunteer){
-        this.volunteer = volunteer;
-    }*/
 
     @Override
     public String toString() {

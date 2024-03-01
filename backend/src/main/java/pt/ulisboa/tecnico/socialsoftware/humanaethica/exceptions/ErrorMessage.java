@@ -55,7 +55,7 @@ public enum ErrorMessage {
     ENROLLMENT_DATE_INVALID("Enrollment date can't be null"),
     // Participation
     PARTICIPATION_LIMIT_FOR_ACTIVITY_REACHED("Participations spots for this activity are already full"),
-    //PARTICIPATION_ALREADY_HAD_THIS_PARTICIPANT("This user already participated in this Activity"),
+    PARTICIPATION_ALREADY_HAD_THIS_PARTICIPANT("This user already participated in this Activity"),
     PARTICIPATION_PLACED_ONLY_AFTER_APPLICATION_PERIOD_IS_OVER("Application period is still ongoing, participation cannot be placed");
 
 
