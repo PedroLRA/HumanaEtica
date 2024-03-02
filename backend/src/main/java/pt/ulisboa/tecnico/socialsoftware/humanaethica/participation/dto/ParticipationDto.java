@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 public class ParticipationDto {
     private Integer id;
     private Integer rating;
-    private LocalDateTime acceptanceDate;
+    private String acceptanceDate;
     private String creationDate;
-    private ActivityDto activity;
+    private ActivityDto activityDto;
 
     public ParticipationDto() {
 
@@ -24,8 +24,9 @@ public class ParticipationDto {
     public ParticipationDto(Participation participation){
         setId(participation.getId());
         setRating(participation.getRating());
-        setAcceptanceDate(participation.getAcceptanceDate());
+        setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
         setCreationDate(DateHandler.toISOString(participation.getCreationDate()));
+        setActivity(activityDto);
     }
 
     public Integer getId() {
@@ -44,11 +45,11 @@ public class ParticipationDto {
        this.rating = rating;
     }   
 
-    public LocalDateTime getAcceptanceDate() {
+    public String getAcceptanceDate() {
         return acceptanceDate;
     }
 
-    public void setAcceptanceDate(LocalDateTime acceptanceDate) {
+    public void setAcceptanceDate(String acceptanceDate) {
         this.acceptanceDate = acceptanceDate;
     }
 
@@ -61,11 +62,11 @@ public class ParticipationDto {
     }
 
     public ActivityDto getActivity() {
-        return activity;
+        return activityDto;
     }
 
-    public void setActivity(ActivityDto activity) {
-        this.activity = activity;
+    public void setActivity(ActivityDto activityDto) {
+        this.activityDto = activityDto;
     }
 
 
