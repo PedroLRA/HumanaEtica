@@ -1,12 +1,12 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+//import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
+//import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 //import java.util.List;
 
 

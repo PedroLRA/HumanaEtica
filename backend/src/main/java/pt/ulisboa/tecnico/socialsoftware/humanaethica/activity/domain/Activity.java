@@ -9,6 +9,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
 
+//import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

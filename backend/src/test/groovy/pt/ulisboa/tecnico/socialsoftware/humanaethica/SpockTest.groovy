@@ -45,7 +45,13 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.repository.Enro
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.EnrollmentService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.repository.ParticipationRepository
+
+
+
 import spock.lang.Specification
+
 
 import java.time.LocalDateTime
 
@@ -332,6 +338,8 @@ class SpockTest extends Specification {
         }
 
     }
+    //Participation
+    public static int PARTICIPATION_RATING_1 = 5
 
     // clean database
 

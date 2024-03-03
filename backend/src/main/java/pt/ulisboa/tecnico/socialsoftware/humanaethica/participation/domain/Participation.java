@@ -4,13 +4,13 @@ import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
+//import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
+//import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
