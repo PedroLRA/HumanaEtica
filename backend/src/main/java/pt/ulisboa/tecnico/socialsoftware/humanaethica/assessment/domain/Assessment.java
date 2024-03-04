@@ -1,8 +1,10 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain;
 
 import jakarta.persistence.*;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.time.LocalDateTime;
 
@@ -27,8 +29,20 @@ public class Assessment {
     public Assessment() {}
 
     public Assessment(String review, LocalDateTime reviewDate) {
-        this.review = review;
-        this.reviewDate = reviewDate;
+        setReview(review);
+        setReviewDate(reviewDate);
+        verifyInvariants();
+    }
+
+    public Assessment(AssessmentDto assessmentDto, Institution institution, Volunteer volunteer) {
+        setId(assessmentDto.getId());
+        setReview(assessmentDto.getReview());
+        setReviewDate(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
+
+        setInstitution(institution);
+        setVolunteer(volunteer);
+
+        verifyInvariants();
     }
 
     public Integer getId() {
@@ -61,6 +75,7 @@ public class Assessment {
 
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
+        volunteer.addAssessment(this);
     }
 
     public Institution getInstitution() {
@@ -69,5 +84,9 @@ public class Assessment {
 
     public void setInstitution(Institution institution) {
         this.institution = institution;
+        institution.addAssessment(this);
     }
+
+    //TODO: Check invariants
+    private void verifyInvariants() {}
 }
