@@ -115,7 +115,7 @@ public class Participation {
 
 
 private void hasLessParticipantsThanTheLimit() {
-    if (this.activity.getParticipations().size() > this.activity.getParticipantsNumberLimit()) {
+    if (this.activity.getParticipationsNumber() > this.activity.getParticipantsNumberLimit()) {
         throw new HEException(PARTICIPATION_LIMIT_FOR_ACTIVITY_REACHED);
     }
 }

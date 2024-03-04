@@ -29,7 +29,6 @@ def setup() {
         participationDto = new ParticipationDto()
         participationDto.rating = PARTICIPATION_RATING_1
         participationDto.acceptanceDate = NOW
-        part
     }
 
 
@@ -75,7 +74,40 @@ def "create participation and violate invariant participate before activity dead
         ONE_DAY_AGO             || ErrorMessage.PARTICIPATION_PLACED_ONLY_AFTER_APPLICATION_PERIOD_IS_OVER
     }
 
+    @Unroll
+    def "create participation and violate can participate only once"() {
+        given:
+        activity.getApplicationDeadline() >> IN_ONE_DAY
+        volunteer.getParticipations() >> [otherParticipation]
+        otherParticipation.getActivity() >> activity;
 
+        when:
+        def result = new Participation(activity, volunteer, participationDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.PARTICIPATION_ALREADY_HAD_THIS_PARTICIPANT
+
+    }
+
+    @Unroll
+    def "create participation and violate number of participants limit"() {
+        given:
+        activity.getParticipationsNumber() >> 5
+        activity.setParticipantsNumberLimit(limit)
+
+        when:
+        def result = new Participation(activity, volunteer, participationDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == errorMessage
+
+        where:
+        limit          || errorMessage
+        0              || ErrorMessage.PARTICIPATION_LIMIT_FOR_ACTIVITY_REACHED
+        4              || ErrorMessage.PARTICIPATION_LIMIT_FOR_ACTIVITY_REACHED
+    }
 
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}

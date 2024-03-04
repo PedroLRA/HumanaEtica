@@ -262,6 +262,10 @@ public class Activity {
         return participations;
     }
 
+    public Integer getParticipationsNumber() {
+        return participations.size();
+    }
+
     public void setParticipations(List<Participation> participations) {
         this.participations = participations;
     }
