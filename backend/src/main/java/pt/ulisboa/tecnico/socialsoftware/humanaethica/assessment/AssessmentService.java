@@ -29,7 +29,7 @@ public class AssessmentService {
      AssessmentRepository assessmentRepository;
 
      @Transactional(isolation = Isolation.READ_COMMITTED)
-    public AssessmentDto registerAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
+    public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
          if (userId == null) throw new HEException(USER_NOT_FOUND);
          if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
 
@@ -46,7 +46,7 @@ public class AssessmentService {
      }
 
 
-    public List<AssessmentDto> getInstitutionAssessments(Integer institutionId) {
+    public List<AssessmentDto> getAssessmentsByInstitution(Integer institutionId) {
          if (institutionId == null || institutionId < 0) throw new HEException(INSTITUTION_NOT_FOUND);
         Institution institution = institutionRepository.findById(institutionId)
                 .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
