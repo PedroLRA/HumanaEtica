@@ -14,7 +14,7 @@ public class AssessmentDto {
 
     private String review;
 
-    private LocalDateTime reviewDate;
+    private String reviewDate;
 
     private VolunteerDto volunteerDto;
 
@@ -30,7 +30,7 @@ public class AssessmentDto {
     public AssessmentDto(Assessment assessment, boolean deepCopyVolunteer, boolean deepCopyInstitution) {
         setId(assessment.getId());
         setReview(assessment.getReview());
-        setReviewDate(assessment.getReviewDate());
+        setReviewDate(assessment.getReviewDate().toString());
 
         if(deepCopyVolunteer) {
             setVolunteer(new VolunteerDto(assessment.getVolunteer(), false));
@@ -58,11 +58,11 @@ public class AssessmentDto {
         this.review = review;
     }
 
-    public LocalDateTime getReviewDate() {
+    public String getReviewDate() {
         return reviewDate;
     }
 
-    public void setReviewDate(LocalDateTime reviewDate) {
+    public void setReviewDate(String reviewDate) {
         this.reviewDate = reviewDate;
     }
 
