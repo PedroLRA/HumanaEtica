@@ -19,7 +19,7 @@ public class EnrollmentDto {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
-        setActivity(activityDto);
+        setActivityDto(activityDto);
     }
 
     public Integer getId() {
@@ -46,11 +46,11 @@ public class EnrollmentDto {
         this.enrollmentDateTime = enrollmenDateTime;
     }
 
-    public ActivityDto getActivity() {
+    public ActivityDto getActivityDto() {
         return activityDto;
     }
 
-    public void setActivity(ActivityDto activityDto) {
+    public void setActivityDto(ActivityDto activityDto) {
         this.activityDto = activityDto;
     }
 
