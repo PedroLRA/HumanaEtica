@@ -42,10 +42,11 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
 
     // Enrollment
-    MOTIVATION_TOO_SHORT("Motivation doesn't have ten or more characters"),
+    MOTIVATION_TOO_SHORT("Motivation needs to have at least ten characters"),
     VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY("Volunteer can't enroll in the same activty more than once"),
-    ENROLLMENT_DATE_AFTER_DEADLINE("Enrollment date is after activity application deadline");
-    
+    ENROLLMENT_DATE_AFTER_DEADLINE("Enrollment date is after activity application deadline"),
+        // Service
+    ENROLLMENT_DATE_INVALID("Enrollment date can't be null");
 
     public final String label;
 

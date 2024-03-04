@@ -221,7 +221,21 @@ class SpockTest extends Specification {
 
     // Enrollment
 
+    @Autowired
+    EnrollmentRepository enrollmentRepository
+
+    @Autowired
+    EnrollmentService enrollmentService
+
     public static final String ENROLLMENT_MOTIVATION_1 = "enrollment motivation 1"
+    public static final String ENROLLMENT_MOTIVATION_2 = "enrollment motivation 2"
+
+    protected EnrollmentDto createEnrollmentDto(motivation, enrollmentDateTime) {
+        def enrollmentDto = new EnrollmentDto()
+        enrollmentDto.setMotivation(motivation);
+        enrollmentDto.setEnrollmentDateTime(DateHandler.toISOString(enrollmentDateTime))
+        enrollmentDto
+    }
 
     // clean database
 
@@ -232,7 +246,7 @@ class SpockTest extends Specification {
         userRepository.deleteAll()
         institutionRepository.deleteAll()
         themeRepository.deleteAll()
-        // enrollmentRepository.deleteAll()
+        enrollmentRepository.deleteAll()
     }
 
 
