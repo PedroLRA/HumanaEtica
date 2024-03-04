@@ -96,14 +96,11 @@ public class Enrollment {
         }
     }
 
-    // getting wrong id, fix to get by activity id bcs enrollment ids are all
-    // different
     private void canEnrollOnlyOnce() {
         if (this.volunteer.getEnrollments().stream()
-                .anyMatch(enrollment -> enrollment != this
-                        && enrollment.getVolunteer().equals(this.volunteer)
-                        && enrollment.getActivity().equals(this.getActivity()))) {
-            throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY, this.volunteer.getId());
+                .anyMatch(enrollment -> enrollment != this && enrollment.getActivity().equals(this.activity))
+            ) {
+            throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY);
         }
     }
 
