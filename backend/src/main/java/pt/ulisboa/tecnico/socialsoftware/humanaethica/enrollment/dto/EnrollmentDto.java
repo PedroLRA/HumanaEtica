@@ -1,21 +1,16 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto;
 
-import java.time.LocalDateTime;
-
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
-
-import java.util.List;
 
 public class EnrollmentDto {
     private Integer id;
     private String motivation;
-    private LocalDateTime enrollmentDateTime;
-    private ActivityDto activity;
+    private String enrollmentDateTime;
+    private ActivityDto activityDto;
 
-    // Needs add volunteer ???
+    // Add UserDto if needed when working on frontend
 
     public EnrollmentDto() {
     }
@@ -23,8 +18,8 @@ public class EnrollmentDto {
     public EnrollmentDto(Enrollment enrollment) {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
-        setEnrollmentDateTime(enrollment.getEnrollmentDateTime());
-
+        setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
+        setActivity(activityDto);
     }
 
     public Integer getId() {
@@ -43,20 +38,20 @@ public class EnrollmentDto {
         this.motivation = motivation;
     }
 
-    public LocalDateTime getEnrollmentDateTime() {
+    public String getEnrollmentDateTime() {
         return enrollmentDateTime;
     }
 
-    public void setEnrollmentDateTime(LocalDateTime enrollmenDateTime) {
+    public void setEnrollmentDateTime(String enrollmenDateTime) {
         this.enrollmentDateTime = enrollmenDateTime;
     }
 
     public ActivityDto getActivity() {
-        return activity;
+        return activityDto;
     }
 
-    public void setActivity(ActivityDto activity) {
-        this.activity = activity;
+    public void setActivity(ActivityDto activityDto) {
+        this.activityDto = activityDto;
     }
 
     // @Override
