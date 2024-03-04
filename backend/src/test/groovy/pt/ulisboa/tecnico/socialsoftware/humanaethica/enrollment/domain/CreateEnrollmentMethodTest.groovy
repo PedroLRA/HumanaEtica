@@ -32,8 +32,6 @@ class CreateEnrollmentMethodTest extends SpockTest {
     def "Create Enrollment: activity, volunteer, enrollmentDto"() {
         given:
         activity.getApplicationDeadline() >> IN_ONE_DAY
-        volunteer.getEnrollments() >> [otherEnrollment]
-        otherEnrollment.getActivity() >> otherActivity
 
         when:
         def result = new Enrollment(activity, volunteer, enrollmentDto)
@@ -48,8 +46,6 @@ class CreateEnrollmentMethodTest extends SpockTest {
     def "create enrollment and violate invariants enroll after activity deadline: applicationDeadline=#applicationDeadline"() {
         given:
         activity.getApplicationDeadline() >> applicationDeadline
-        volunteer.getEnrollments() >> [otherEnrollment]
-        otherEnrollment.getActivity() >> otherActivity
 
         when:
         def result = new Enrollment(activity, volunteer, enrollmentDto)

@@ -25,10 +25,10 @@ public class Enrollment {
     private LocalDateTime enrollmentDateTime;
 
     // Relations between other entities
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Activity activity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Volunteer volunteer;
 
     // Constructors
@@ -97,7 +97,7 @@ public class Enrollment {
     }
 
     private void canEnrollOnlyOnce() {
-        if (this.volunteer.getEnrollments().stream()
+        if (this.volunteer.getEnrollments() != null && this.volunteer.getEnrollments().stream()
                 .anyMatch(enrollment -> enrollment != this && enrollment.getActivity().equals(this.activity))
             ) {
             throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY);
