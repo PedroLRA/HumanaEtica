@@ -41,6 +41,11 @@ public enum ErrorMessage {
     ACTIVITY_ALREADY_SUSPENDED("Activity is already suspended with name %s"),
     ACTIVITY_ALREADY_REPORTED("Activity is already reported with name %s"),
 
+    // Assessment
+    ASSESSMENT_INVALID_REVIEW("Review should be longer than 10 characters"),
+    ASSESSMENT_VOLUNTEER_ALREADY_ASSESSED_INSTITUTION("Assessment from volunteer %s to institution %s already exists"),
+    ASSESSMENT_INSTITUTION_NO_ACTIVITIES_COMPLETED("Institution %s has no activities (must have at least one)"),
+
     // Enrollment
     MOTIVATION_TOO_SHORT("Motivation needs to have at least ten characters"),
     VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY("Volunteer can't enroll in the same activty more than once"),

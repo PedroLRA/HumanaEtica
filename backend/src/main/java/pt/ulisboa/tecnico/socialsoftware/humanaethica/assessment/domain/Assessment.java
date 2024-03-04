@@ -2,6 +2,8 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain;
 
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
@@ -88,5 +90,24 @@ public class Assessment {
     }
 
     //TODO: Check invariants
-    private void verifyInvariants() {}
+    private void verifyInvariants() {
+        checkReviewLength();
+        onlyAssessmentFromVolunteerToInstitution();
+        institutionHasOneActivityCompleted();
+    }
+
+    private void checkReviewLength() {
+        if (this.review == null) throw new HEException(ErrorMessage.ASSESSMENT_INVALID_REVIEW);
+        if (this.review.length() < 10) throw new HEException(ErrorMessage.ASSESSMENT_INVALID_REVIEW);
+    }
+
+    private void onlyAssessmentFromVolunteerToInstitution() {
+        if (institution.getAssessments().stream().anyMatch(assessment -> assessment.getVolunteer().getId().equals(this.id)))
+            throw new HEException(ErrorMessage.ASSESSMENT_VOLUNTEER_ALREADY_ASSESSED_INSTITUTION, this.volunteer.getName(), this.institution.getName());
+    }
+
+    private void institutionHasOneActivityCompleted() {
+        if (this.institution.getActivities().stream().anyMatch(activity -> activity.getEndingDate().isBefore(LocalDateTime.now())))
+            throw new HEException(ErrorMessage.ASSESSMENT_INSTITUTION_NO_ACTIVITIES_COMPLETED,this.institution.getName());
+    }
 }
