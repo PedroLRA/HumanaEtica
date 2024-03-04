@@ -83,11 +83,11 @@ public class Enrollment {
         volunteer.addEnrollments(this);
     }
 
-    //Invariants
+    // Invariants
     private void verifyInvariants() {
         motivationHasTenCharacters();
         canEnrollOnlyOnce();
-        cannotEnrollAfterDeadline();        
+        cannotEnrollAfterDeadline();
     }
 
     private void motivationHasTenCharacters() {
@@ -98,8 +98,7 @@ public class Enrollment {
 
     private void canEnrollOnlyOnce() {
         if (this.volunteer.getEnrollments() != null && this.volunteer.getEnrollments().stream()
-                .anyMatch(enrollment -> enrollment != this && enrollment.getActivity().equals(this.activity))
-            ) {
+                .anyMatch(enrollment -> enrollment != this && enrollment.getActivity().equals(this.activity))) {
             throw new HEException(VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY);
         }
     }
@@ -109,5 +108,5 @@ public class Enrollment {
             throw new HEException(ENROLLMENT_DATE_AFTER_DEADLINE);
         }
     }
-    
+
 }

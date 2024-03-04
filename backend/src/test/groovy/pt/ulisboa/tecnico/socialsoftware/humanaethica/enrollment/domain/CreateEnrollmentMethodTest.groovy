@@ -43,6 +43,44 @@ class CreateEnrollmentMethodTest extends SpockTest {
         result.getMotivation() == ENROLLMENT_MOTIVATION_1
     }
 
+    @Unroll
+    def "create enrollment and violate motivation has ten or more characters"() {
+        given:
+        enrollmentDto.setMotivation(motivation)
+
+        when:
+        def result = new Enrollment(activity, volunteer, enrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == errorMessage
+
+        where:
+        motivation     || errorMessage
+        ""             || ErrorMessage.MOTIVATION_TOO_SHORT
+        "short"        || ErrorMessage.MOTIVATION_TOO_SHORT
+        null           || ErrorMessage.MOTIVATION_TOO_SHORT
+        "           "  || ErrorMessage.MOTIVATION_TOO_SHORT
+        " "            || ErrorMessage.MOTIVATION_TOO_SHORT
+    }
+
+    @Unroll
+    def "create enrollment and violate can enroll only once"() {
+        given:
+        activity.getApplicationDeadline() >> IN_ONE_DAY
+        volunteer.getEnrollments() >> [otherEnrollment]
+        otherEnrollment.getActivity() >> activity;
+
+        when:
+        def result = new Enrollment(activity, volunteer, enrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY
+        
+    }
+
+    @Unroll
     def "create enrollment and violate invariants enroll after activity deadline: applicationDeadline=#applicationDeadline"() {
         given:
         activity.getApplicationDeadline() >> applicationDeadline
