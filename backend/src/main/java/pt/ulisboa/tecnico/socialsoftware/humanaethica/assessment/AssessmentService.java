@@ -41,6 +41,8 @@ public class AssessmentService {
 
          Assessment assessment = new Assessment(assessmentDto, institution, volunteer);
 
+        assessmentRepository.save(assessment);
+
          return new AssessmentDto(assessment, true, true);
      }
 
