@@ -22,8 +22,7 @@ public class AssessmentDto {
 
     public AssessmentDto() {}
 
-    public AssessmentDto(Integer id, String review, String reviewDate, VolunteerDto volunteerDto, InstitutionDto institutionDto) {
-        setId(id);
+    public AssessmentDto(String review, String reviewDate, VolunteerDto volunteerDto, InstitutionDto institutionDto) {
         setReview(review);
         setReviewDate(reviewDate);
         setVolunteer(volunteerDto);

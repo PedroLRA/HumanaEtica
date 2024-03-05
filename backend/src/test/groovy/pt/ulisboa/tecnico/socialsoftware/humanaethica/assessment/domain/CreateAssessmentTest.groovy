@@ -50,7 +50,7 @@ class CreateAssessmentTest extends SpockTest {
         given:
         VolunteerDto volunteerDto = Mock()
         InstitutionDto institutionDto = Mock()
-        AssessmentDto assessmentDto = new AssessmentDto(assessmentId, review, DateHandler.toISOString(localDateTime), volunteerDto, institutionDto)
+        AssessmentDto assessmentDto = new AssessmentDto(review, DateHandler.toISOString(localDateTime), volunteerDto, institutionDto)
 
         when:
         Assessment assessment = new Assessment(assessmentDto, institution, volunteer)
@@ -61,14 +61,13 @@ class CreateAssessmentTest extends SpockTest {
 
     def "using explicit constructor"() {
         when:
-        Assessment assessment = new Assessment(volunteerId, review, localDateTime, institution, volunteer)
+        Assessment assessment = new Assessment(review, localDateTime, institution, volunteer)
 
         then:
         assessmentIsInstantiatedCorrectly(assessment)
     }
 
     boolean assessmentIsInstantiatedCorrectly(Assessment assessment) {
-        assessment.getId() == assessmentId
         assessment.getInstitution().getId() == institutionId
         assessment.getReview().equals(review)
         assessment.getReviewDate().isEqual(localDateTime)

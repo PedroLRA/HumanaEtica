@@ -30,8 +30,7 @@ public class Assessment {
 
     public Assessment() {}
 
-    public Assessment(Integer id, String review, LocalDateTime reviewDate, Institution institution, Volunteer volunteer) {
-        setId(id);
+    public Assessment(String review, LocalDateTime reviewDate, Institution institution, Volunteer volunteer) {
         setReview(review);
         setReviewDate(reviewDate);
         setInstitution(institution);
