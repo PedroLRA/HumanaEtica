@@ -9,19 +9,20 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 
 import java.time.LocalDateTime
 
-class CreateAssessmentTest extends SpockTest {
+class CreateAssessmentReviewInvariantsTest extends SpockTest {
     Institution institution
     Volunteer volunteer
     Activity activityCompleted
 
     def setup() {
-        institution = new Institution()
+        institution = Mock()
         volunteer = Mock()
         volunteer.getId() >> 1
-        activityCompleted = new Activity()
-        activityCompleted.setEndingDate(LocalDateTime.now().minusDays(1))
-        activityCompleted.setInstitution(institution)
-        institution.addActivity(activityCompleted)
+        activityCompleted = Mock()
+        activityCompleted.getEndingDate() >> LocalDateTime.now().minusDays(1)
+        activityCompleted.getInstitution() >> institution
+        institution.getActivities() >> [activityCompleted]
+        institution.getAssessments() >> []
     }
 
     def "review can't be null"() {
