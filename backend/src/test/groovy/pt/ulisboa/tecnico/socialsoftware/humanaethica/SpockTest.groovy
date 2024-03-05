@@ -255,6 +255,11 @@ class SpockTest extends Specification {
 
     // assessment
 
+
+    public static final String REVIEW = "test valid review"
+    public static final Integer VOLUNTEER_ID_1 = 1
+    public static final Integer VOLUNTEER_ID_2 = 2
+
     @Autowired
     AssessmentService assessmentService
 
@@ -272,6 +277,4 @@ class SpockTest extends Specification {
         themeRepository.deleteAll()
         enrollmentRepository.deleteAll()
     }
-
-
 }
