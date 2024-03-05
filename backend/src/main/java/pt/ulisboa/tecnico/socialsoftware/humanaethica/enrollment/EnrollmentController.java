@@ -21,10 +21,18 @@ public class EnrollmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentController.class);
 
+    @GetMapping()
+    @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
+    public List<EnrollmentDto> getEnrollments() {
+        return enrollmentService.getEnrollments();
+    }
+
     @PostMapping("/{activityId}")
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
-    public EnrollmentDto createEnrollment(Principal principal,@PathVariable Integer activityId, @Valid @RequestBody EnrollmentDto enrollmentDto) {
+    public EnrollmentDto createEnrollment(Principal principal, @PathVariable Integer activityId,
+            @Valid @RequestBody EnrollmentDto enrollmentDto) {
         int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
         return enrollmentService.createEnrollment(userId, activityId, enrollmentDto);
     }
+
 }
