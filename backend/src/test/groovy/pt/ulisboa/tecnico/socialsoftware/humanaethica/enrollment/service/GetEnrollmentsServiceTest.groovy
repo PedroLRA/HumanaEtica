@@ -6,7 +6,6 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.BeanConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser
@@ -15,15 +14,12 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 @DataJpaTest
 class GetEnrollmentsServiceTest extends SpockTest {
 
-    def member
-    def institution
-
     def setup() {
         
         given: "a member"
-        member = authUserService.loginDemoMemberAuth().getUser()
+        def member = authUserService.loginDemoMemberAuth().getUser()
         and: "an institution"
-        institution = institutionService.getDemoInstitution()
+        def institution = institutionService.getDemoInstitution()
         and: "a volunteer"
         def volunteer = createVolunteer(USER_1_NAME, USER_1_USERNAME, USER_1_PASSWORD, USER_1_EMAIL, AuthUser.Type.NORMAL, User.State.APPROVED)
         and: "a theme"
