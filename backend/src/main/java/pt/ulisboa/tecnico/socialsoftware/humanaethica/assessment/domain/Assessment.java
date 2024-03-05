@@ -41,18 +41,23 @@ public class Assessment {
         setReviewDate(reviewDate);
         setInstitution(institution);
         setVolunteer(volunteer);
+
         verifyInvariants();
+        volunteer.addAssessment(this);
+        institution.addAssessment(this);
     }
 
     public Assessment(AssessmentDto assessmentDto, Institution institution, Volunteer volunteer) {
         setId(assessmentDto.getId());
         setReview(assessmentDto.getReview());
         setReviewDate(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
-
         setInstitution(institution);
         setVolunteer(volunteer);
 
         verifyInvariants();
+
+        volunteer.addAssessment(this);
+        institution.addAssessment(this);
     }
 
     public Integer getId() {
@@ -85,7 +90,6 @@ public class Assessment {
 
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
-        volunteer.addAssessment(this);
     }
 
     public Institution getInstitution() {
@@ -94,14 +98,15 @@ public class Assessment {
 
     public void setInstitution(Institution institution) {
         this.institution = institution;
-        institution.addAssessment(this);
     }
 
-    //TODO: Check invariants
     private void verifyInvariants() {
         checkReviewLength();
-        onlyAssessmentFromVolunteerToInstitution();
-        institutionHasOneActivityCompleted();
+        if (this.getInstitution() != null) {
+            institutionHasOneActivityCompleted();
+            if (this.getVolunteer() != null)
+                onlyAssessmentFromVolunteerToInstitution();
+        }
     }
 
     private void checkReviewLength() {
@@ -110,7 +115,7 @@ public class Assessment {
     }
 
     private void onlyAssessmentFromVolunteerToInstitution() {
-        if (institution.getAssessments().stream().anyMatch(assessment -> assessment.getVolunteer().getId().equals(this.id)))
+        if (institution.getAssessments().stream().anyMatch(assessment -> assessment.getVolunteer().getId().equals(this.volunteer.getId())))
             throw new HEException(ErrorMessage.ASSESSMENT_VOLUNTEER_ALREADY_ASSESSED_INSTITUTION, this.volunteer.getName(), this.institution.getName());
     }
 
