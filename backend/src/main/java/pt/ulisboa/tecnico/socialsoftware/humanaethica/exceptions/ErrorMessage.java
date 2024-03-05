@@ -14,6 +14,7 @@ public enum ErrorMessage {
     AUTHUSER_NOT_FOUND("AuthUser not found with id %d"),
     USER_NOT_FOUND("User not found with username %s"),
     INSTITUTION_NOT_FOUND("Institution not found with id %d"),
+    INSTITUTION_INVALID_ID("Institution ID invalid: %d"),
     USER_NOT_APPROVED("The member of this institution is not yet approved"),
     USER_ALREADY_ACTIVE("User is already active with username %s"),
     INVALID_CONFIRMATION_TOKEN("Invalid confirmation token"),
@@ -44,7 +45,7 @@ public enum ErrorMessage {
     // Assessment
     ASSESSMENT_INVALID_REVIEW("Review should be longer than 10 characters"),
     ASSESSMENT_VOLUNTEER_ALREADY_ASSESSED_INSTITUTION("Assessment from volunteer %s to institution %s already exists"),
-    ASSESSMENT_INSTITUTION_NO_ACTIVITIES_COMPLETED("Institution %s has no activities (must have at least one)"),
+    ASSESSMENT_INSTITUTION_NO_ACTIVITIES_COMPLETED("Institution %s has no completed activities (must have at least one)"),
 
     // Enrollment
     MOTIVATION_TOO_SHORT("Motivation needs to have at least ten characters"),

@@ -30,13 +30,8 @@ public class Assessment {
 
     public Assessment() {}
 
-    public Assessment(String review, LocalDateTime reviewDate) {
-        setReview(review);
-        setReviewDate(reviewDate);
-        verifyInvariants();
-    }
-
-    public Assessment(String review, LocalDateTime reviewDate, Institution institution, Volunteer volunteer) {
+    public Assessment(Integer id, String review, LocalDateTime reviewDate, Institution institution, Volunteer volunteer) {
+        setId(id);
         setReview(review);
         setReviewDate(reviewDate);
         setInstitution(institution);

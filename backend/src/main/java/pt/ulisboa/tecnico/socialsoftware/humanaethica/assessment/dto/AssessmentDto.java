@@ -22,6 +22,14 @@ public class AssessmentDto {
 
     public AssessmentDto() {}
 
+    public AssessmentDto(Integer id, String review, String reviewDate, VolunteerDto volunteerDto, InstitutionDto institutionDto) {
+        setId(id);
+        setReview(review);
+        setReviewDate(reviewDate);
+        setVolunteer(volunteerDto);
+        setInstitution(institutionDto);
+    }
+
     public AssessmentDto(Assessment assessment) {
         this(assessment, true, true);
 

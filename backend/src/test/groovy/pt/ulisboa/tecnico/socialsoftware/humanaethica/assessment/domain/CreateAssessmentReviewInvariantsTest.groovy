@@ -13,11 +13,12 @@ class CreateAssessmentReviewInvariantsTest extends SpockTest {
     Institution institution
     Volunteer volunteer
     Activity activityCompleted
+    Random random = new Random()
+    int assessmentId = random.nextInt(100) + 1
 
     def setup() {
         institution = Mock()
         volunteer = Mock()
-        volunteer.getId() >> 1
         activityCompleted = Mock()
         activityCompleted.getEndingDate() >> LocalDateTime.now().minusDays(1)
         activityCompleted.getInstitution() >> institution
@@ -27,7 +28,7 @@ class CreateAssessmentReviewInvariantsTest extends SpockTest {
 
     def "review can't be null"() {
         when:
-        Assessment assessmentNullReview = new Assessment(null, LocalDateTime.now(), institution, volunteer)
+        Assessment assessmentNullReview = new Assessment(assessmentId, null, LocalDateTime.now(), institution, volunteer)
 
         then:
         HEException heException = thrown(HEException)
@@ -36,7 +37,7 @@ class CreateAssessmentReviewInvariantsTest extends SpockTest {
 
     def "review can't be shorter than 10 characters"() {
         when:
-        Assessment assessmentShortReview = new Assessment("test", LocalDateTime.now(), institution, volunteer)
+        Assessment assessmentShortReview = new Assessment(assessmentId,"test", LocalDateTime.now(), institution, volunteer)
 
         then:
         HEException heException = thrown(HEException)
@@ -45,7 +46,7 @@ class CreateAssessmentReviewInvariantsTest extends SpockTest {
 
     def "valid review doesn't throw exception"() {
         when:
-        Assessment assessmentValidReview = new Assessment("review longer than 10 characters", LocalDateTime.now(), institution, volunteer)
+        Assessment assessmentValidReview = new Assessment(assessmentId,"review longer than 10 characters", LocalDateTime.now(), institution, volunteer)
 
         then:
         HEException heException = notThrown(HEException)
