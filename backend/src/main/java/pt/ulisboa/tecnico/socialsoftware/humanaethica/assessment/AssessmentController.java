@@ -23,7 +23,7 @@ public class AssessmentController {
 
     @GetMapping("/search/{institutionId}")
     public List<AssessmentDto> getInstitutionAssessments(@PathVariable Integer institutionId) {
-        return assessmentService.getAssessmentsByInstitution(institutionId);
+        return assessmentService.getInstitutionAssessments(institutionId);
     }
 
     @PostMapping("/post/{institutionId}")

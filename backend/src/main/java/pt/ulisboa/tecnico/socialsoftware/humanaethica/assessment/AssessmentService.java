@@ -46,7 +46,7 @@ public class AssessmentService {
      }
 
 
-    public List<AssessmentDto> getAssessmentsByInstitution(Integer institutionId) {
+    public List<AssessmentDto> getInstitutionAssessments(Integer institutionId) {
          if (institutionId == null || institutionId < 0) throw new HEException(INSTITUTION_NOT_FOUND);
         Institution institution = institutionRepository.findById(institutionId)
                 .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));

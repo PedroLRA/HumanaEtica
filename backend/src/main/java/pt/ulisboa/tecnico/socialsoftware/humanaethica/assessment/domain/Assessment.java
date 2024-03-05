@@ -36,6 +36,14 @@ public class Assessment {
         verifyInvariants();
     }
 
+    public Assessment(String review, LocalDateTime reviewDate, Institution institution, Volunteer volunteer) {
+        setReview(review);
+        setReviewDate(reviewDate);
+        setInstitution(institution);
+        setVolunteer(volunteer);
+        verifyInvariants();
+    }
+
     public Assessment(AssessmentDto assessmentDto, Institution institution, Volunteer volunteer) {
         setId(assessmentDto.getId());
         setReview(assessmentDto.getReview());
@@ -107,7 +115,7 @@ public class Assessment {
     }
 
     private void institutionHasOneActivityCompleted() {
-        if (this.institution.getActivities().stream().anyMatch(activity -> activity.getEndingDate().isBefore(LocalDateTime.now())))
+        if (this.institution.getActivities().stream().noneMatch(activity -> activity.getEndingDate().isBefore(LocalDateTime.now())))
             throw new HEException(ErrorMessage.ASSESSMENT_INSTITUTION_NO_ACTIVITIES_COMPLETED,this.institution.getName());
     }
 }
