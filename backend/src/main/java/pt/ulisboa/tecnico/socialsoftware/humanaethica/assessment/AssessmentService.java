@@ -16,8 +16,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserReposi
 import java.util.ArrayList;
 import java.util.List;
 
-import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.INSTITUTION_NOT_FOUND;
-import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.USER_NOT_FOUND;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
 @Service
 public class AssessmentService {
@@ -46,8 +45,9 @@ public class AssessmentService {
      }
 
 
-    public List<AssessmentDto> getInstitutionAssessments(Integer institutionId) {
-         if (institutionId == null || institutionId < 0) throw new HEException(INSTITUTION_NOT_FOUND);
+    public List<AssessmentDto> getAssignmentsByInstitution(Integer institutionId) {
+        if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
+        if (institutionId < 0) throw new HEException(INSTITUTION_INVALID_ID,institutionId);
         Institution institution = institutionRepository.findById(institutionId)
                 .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
 
@@ -55,7 +55,6 @@ public class AssessmentService {
         assessmentRepository.getAssessmentsByInstitutionId(institutionId).forEach(assessment -> {
             assessmentDtos.add(new AssessmentDto(assessment));
         });
-
         return assessmentDtos;
     }
 
