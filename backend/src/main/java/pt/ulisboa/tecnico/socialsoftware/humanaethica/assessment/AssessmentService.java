@@ -46,6 +46,8 @@ public class AssessmentService {
 
      @Transactional(isolation = Isolation.READ_COMMITTED)
      public List<AssessmentDto> getAssignmentsByInstitution(Integer institutionId) {
+
+    public List<AssessmentDto> getAssessmentsByInstitution(Integer institutionId) {
         if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
         if (institutionId < 0) throw new HEException(INSTITUTION_INVALID_ID,institutionId);
         Institution institution = institutionRepository.findById(institutionId)

@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
@@ -70,6 +71,11 @@ public class UserService {
                 .map(user->new UserDto(user))
                 .sorted(Comparator.comparing(UserDto::getUsername))
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Optional<User> getUserById(Integer userId) {
+        return userRepository.findById(userId);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

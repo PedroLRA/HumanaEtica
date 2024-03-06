@@ -11,6 +11,7 @@ public class InstitutionDocument {
     private Integer id;
 
     @Lob
+    @Column(columnDefinition="TEXT")
     byte[] content;
 
     String name;

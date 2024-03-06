@@ -13,8 +13,4 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institu
 public interface InstitutionRepository extends JpaRepository<Institution, Integer> {
     @Query(value = "select * from institutions u where u.nif = lower(:nif)", nativeQuery = true)
     Optional<Institution> findInstitutionByNif(String nif);
-
-    @Override
-    @Query("SELECT u from Institution u WHERE u.id = :id")
-    Optional<Institution> findById(Integer id);
 }

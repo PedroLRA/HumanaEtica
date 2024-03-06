@@ -2,13 +2,17 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain;
 
 import jakarta.persistence.*;
 
+import java.sql.Blob;
+
 @Entity
+@Table(name = "user_document")
 public class UserDocument {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Lob
+    @Column(columnDefinition="TEXT")
     byte[] content;
 
     String name;
