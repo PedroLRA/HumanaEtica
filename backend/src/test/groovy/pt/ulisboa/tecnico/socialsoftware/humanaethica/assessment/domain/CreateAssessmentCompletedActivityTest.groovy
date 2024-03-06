@@ -1,6 +1,6 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain
 
-import org.apache.tools.ant.taskdefs.Local
+
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
@@ -38,7 +38,7 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
 
     def "institution doesn't have completed activity"() {
         when:
-        Assessment invalidAssessment = new Assessment(assessmentDto, institution, volunteer)
+        Assessment invalidAssessment = new Assessment(volunteer, institution, assessmentDto)
 
         then:
         HEException heException = thrown(HEException)
@@ -53,7 +53,7 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
         institution.addActivity(otherActivity)
 
         when:
-        Assessment validAssessment = new Assessment(assessmentDto, institution, volunteer)
+        Assessment validAssessment = new Assessment(volunteer, institution, assessmentDto)
 
         then:
         notThrown(Exception)
