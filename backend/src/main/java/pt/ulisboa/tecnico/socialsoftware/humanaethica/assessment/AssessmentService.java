@@ -21,14 +21,14 @@ import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMes
 @Service
 public class AssessmentService {
      @Autowired
-    InstitutionRepository institutionRepository;
+     InstitutionRepository institutionRepository;
      @Autowired
-    UserRepository userRepository;
+     UserRepository userRepository;
      @Autowired
      AssessmentRepository assessmentRepository;
 
      @Transactional(isolation = Isolation.READ_COMMITTED)
-    public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
+     public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
          if (userId == null) throw new HEException(USER_NOT_FOUND);
          if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
 
@@ -44,8 +44,7 @@ public class AssessmentService {
          return new AssessmentDto(assessment, true, true);
      }
 
-
-    public List<AssessmentDto> getAssignmentsByInstitution(Integer institutionId) {
+     public List<AssessmentDto> getAssignmentsByInstitution(Integer institutionId) {
         if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
         if (institutionId < 0) throw new HEException(INSTITUTION_INVALID_ID,institutionId);
         Institution institution = institutionRepository.findById(institutionId)
