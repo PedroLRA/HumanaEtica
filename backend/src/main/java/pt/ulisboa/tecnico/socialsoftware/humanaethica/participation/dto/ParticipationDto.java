@@ -23,10 +23,10 @@ public class ParticipationDto {
 
     public ParticipationDto(Participation participation){
         setId(participation.getId());
+        setActivity(activityDto);
         setRating(participation.getRating());
         setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
         setCreationDate(DateHandler.toISOString(participation.getCreationDate()));
-        setActivity(activityDto);
     }
 
     public Integer getId() {
@@ -69,6 +69,9 @@ public class ParticipationDto {
         this.activityDto = activityDto;
     }
 
+    public void setParticipantsNumberLimit(Integer participantsNumberLimit) {
+        this.activityDto.setParticipantsNumberLimit(participantsNumberLimit);
+    }
 
     @Override
     public String toString() {

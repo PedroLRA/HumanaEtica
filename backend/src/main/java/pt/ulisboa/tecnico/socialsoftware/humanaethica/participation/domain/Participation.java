@@ -6,7 +6,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 //import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
-//import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.time.LocalDateTime;
 //import java.util.ArrayList;
@@ -39,11 +39,11 @@ public class Participation {
 
     }
 
-    public Participation(ParticipationDto participationDto, Activity activity, Volunteer volunteer) {
+    public Participation(Activity activity, Volunteer volunteer, ParticipationDto participationDto) {
         //instanceCount++;
         setActivity(activity);
-        setRating(rating);
-        setAcceptanceDate(acceptanceDate);
+        setRating(participationDto.getRating());
+        setAcceptanceDate(DateHandler.now());
         setVolunteer(volunteer);
 
         verifyInvariants();
@@ -81,7 +81,7 @@ public class Participation {
         this.creationDate = creationDate;
     }
 
-    public Activity getActivity(Activity activity){
+    public Activity getActivity(){
         return activity;
     }
 
@@ -112,8 +112,6 @@ public class Participation {
     }
 
 
-
-
 private void hasLessParticipantsThanTheLimit() {
     if (this.activity.getParticipationsNumber() > this.activity.getParticipantsNumberLimit()) {
         throw new HEException(PARTICIPATION_LIMIT_FOR_ACTIVITY_REACHED);
@@ -122,7 +120,7 @@ private void hasLessParticipantsThanTheLimit() {
 
 private void volunteerHasNeverParticipated() {
     if (this.volunteer.getParticipations().stream()
-            .anyMatch(participation -> participation != this && participation.getId().equals(this.getId()))) {
+            .anyMatch(participation -> participation != this && participation.getActivity().equals(this.activity))) {
         throw new HEException(PARTICIPATION_ALREADY_HAD_THIS_PARTICIPANT);
     }
 }

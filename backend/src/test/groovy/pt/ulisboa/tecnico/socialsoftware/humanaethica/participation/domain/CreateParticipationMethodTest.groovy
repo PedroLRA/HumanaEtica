@@ -35,33 +35,37 @@ def setup() {
 def "Create Participation: activity, volunteer, participationDto"() {
         given:
         activity.getApplicationDeadline() >> TWO_DAYS_AGO
-        volunteer.getParticipations >> [otherParticipation]
+        activity.getParticipationsNumber() >> 5
+        activity.getParticipantsNumberLimit() >> 5
+        volunteer.getParticipations() >> [otherParticipation]
         otherParticipation.getActivity() >> otherActivity
 
         when:
-        def result = new Participation(participationDto, activity, volunteer)
+        def result = new Participation(activity, volunteer, participationDto)
 
         then: "check result"
         result.getActivity() == activity
         result.getVolunteer() == volunteer
-        result.getAcceptanceDate() == NOW
+        result.getAcceptanceDate() >= NOW
         result.getRating() == PARTICIPATION_RATING_1
     }
 
 
 @Unroll
-def "create participation and violate invariant participate before activity deadline: applicationDeadline=#applicationDeadline"() {
+def "create participation and violate invariant participate before activity deadline: applicationDeadline=#date"() {
         given:
         activity.getApplicationDeadline() >> IN_TWO_DAYS
+        activity.getParticipationsNumber() >> 5
+        activity.getParticipantsNumberLimit() >> 5
         volunteer.getParticipations() >> [otherParticipation]
         otherParticipation.getActivity() >> otherActivity
         and: "a participation dto"
         participationDto = new ParticipationDto()
         participationDto.setRating(PARTICIPATION_RATING_1)
-        participationDto.setAcceptanceDate(date)
+        participationDto.setAcceptanceDate(DateHandler.toISOString(date))
 
         when:
-        new Participation(participationDto, activity, volunteer)
+        new Participation(activity, volunteer, participationDto)
 
         then:
         def error = thrown(HEException)
@@ -78,6 +82,8 @@ def "create participation and violate invariant participate before activity dead
     def "create participation and violate can participate only once"() {
         given:
         activity.getApplicationDeadline() >> IN_ONE_DAY
+        activity.getParticipationsNumber() >> 5
+        activity.getParticipantsNumberLimit() >> 5
         volunteer.getParticipations() >> [otherParticipation]
         otherParticipation.getActivity() >> activity;
 
@@ -94,7 +100,7 @@ def "create participation and violate invariant participate before activity dead
     def "create participation and violate number of participants limit"() {
         given:
         activity.getParticipationsNumber() >> 5
-        activity.setParticipantsNumberLimit(limit)
+        activity.getParticipantsNumberLimit() >> limit
 
         when:
         def result = new Participation(activity, volunteer, participationDto)
