@@ -25,10 +25,10 @@ public class Enrollment {
     private LocalDateTime enrollmentDateTime;
 
     // Relations between other entities
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     private Activity activity;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     private Volunteer volunteer;
 
     // Constructors
@@ -108,5 +108,4 @@ public class Enrollment {
             throw new HEException(ENROLLMENT_DATE_AFTER_DEADLINE);
         }
     }
-
 }

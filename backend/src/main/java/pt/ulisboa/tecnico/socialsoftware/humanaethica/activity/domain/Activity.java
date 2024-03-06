@@ -43,7 +43,7 @@ public class Activity {
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
 
-    @OneToMany(mappedBy = "activity", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Enrollment> enrollments = new ArrayList<>();
 
     public Activity() {
