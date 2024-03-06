@@ -259,6 +259,7 @@ class SpockTest extends Specification {
     public static final String REVIEW = "test valid review"
     public static final Integer VOLUNTEER_ID_1 = 1
     public static final Integer VOLUNTEER_ID_2 = 2
+    public static final Integer ASSESSMENT_ID_1 = 1
 
     @Autowired
     AssessmentService assessmentService
