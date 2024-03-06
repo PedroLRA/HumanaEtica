@@ -33,7 +33,7 @@ class GetEnrollmentsServiceTest extends SpockTest {
             IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, null)
         activity = new Activity(activityDto, institution, themes)
         and: "an enrollment"
-        def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW)
+        def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW, activityDto)
         def enrollment = new Enrollment(activity, volunteer, enrollmentDto)
         enrollmentRepository.save(enrollment)
         and: "another activity"
