@@ -21,6 +21,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.EnrollmentServi
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.ParticipationService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 
 @TestConfiguration
@@ -89,6 +90,8 @@ class BeanConfiguration {
     @Bean
     AssessmentController assessmentController() {
         return new AssessmentController()
+    ParticipationService participationService() {
+        return new ParticipationService()
     }
 
     @Bean
