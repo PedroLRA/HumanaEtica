@@ -30,7 +30,6 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         institution.addActivity(activity)
 
         assessmentDto = Mock()
-        assessmentDto.getId() >> ASSESSMENT_ID_1
         assessmentDto.getReview() >> REVIEW
         assessmentDto.getReviewDate() >> DateHandler.toISOString(NOW)
     }
@@ -65,7 +64,6 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         then:
         notThrown(Exception)
 
-        validAssessment.getId() == ASSESSMENT_ID_1
         validAssessment.getReview() == REVIEW
         validAssessment.getReviewDate() == NOW
         validAssessment.getInstitution() == institution
@@ -85,7 +83,6 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         then:
         notThrown(Exception)
 
-        validAssessment.getId() == ASSESSMENT_ID_1
         validAssessment.getReview() == REVIEW
         validAssessment.getReviewDate() == NOW
         validAssessment.getInstitution() == institution
@@ -95,7 +92,7 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
     def "both institution and volunteer have other assessments"() {
         given:
         Volunteer otherVolunteer = Mock()
-        otherVolunteer.getId() >> 2
+        otherVolunteer.getId() >> VOLUNTEER_ID_2
 
         Institution otherInstitution = Mock()
         otherInstitution.getAssessments() >> []
@@ -110,7 +107,6 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         then:
         notThrown(Exception)
 
-        validAssessment.getId() == ASSESSMENT_ID_1
         validAssessment.getReview() == REVIEW
         validAssessment.getReviewDate() == NOW
         validAssessment.getInstitution() == institution

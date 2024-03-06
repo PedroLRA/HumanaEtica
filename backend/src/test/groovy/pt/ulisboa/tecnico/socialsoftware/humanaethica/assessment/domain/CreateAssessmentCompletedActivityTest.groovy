@@ -31,7 +31,6 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
         institution.addActivity(activity)
 
         assessmentDto = Mock()
-        assessmentDto.getId() >> ASSESSMENT_ID_1
         assessmentDto.getReview() >> REVIEW
         assessmentDto.getReviewDate() >> DateHandler.toISOString(NOW)
     }
@@ -58,7 +57,6 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
         then:
         notThrown(Exception)
 
-        validAssessment.getId() == ASSESSMENT_ID_1
         validAssessment.getReview() == REVIEW
         validAssessment.getReviewDate() == NOW
         validAssessment.getInstitution() == institution

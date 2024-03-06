@@ -42,7 +42,6 @@ public class Assessment {
     }
 
     public Assessment(Institution institution, Volunteer volunteer, AssessmentDto assessmentDto) {
-        setId(assessmentDto.getId());
         setReview(assessmentDto.getReview());
         setReviewDate(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
         setInstitution(institution);
