@@ -5,6 +5,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.Institutio
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.VolunteerDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 import java.time.LocalDateTime;
 
@@ -37,7 +38,7 @@ public class AssessmentDto {
     public AssessmentDto(Assessment assessment, boolean deepCopyVolunteer, boolean deepCopyInstitution) {
         setId(assessment.getId());
         setReview(assessment.getReview());
-        setReviewDate(assessment.getReviewDate().toString());
+        setReviewDate(DateHandler.toISOString(assessment.getReviewDate()));
 
         if(deepCopyVolunteer) {
             setVolunteer(new VolunteerDto(assessment.getVolunteer(), false));
