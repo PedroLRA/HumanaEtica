@@ -21,10 +21,10 @@ public class EnrollmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentController.class);
 
-    @GetMapping()
+    @GetMapping("/{activityId}")
     @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
-    public List<EnrollmentDto> getEnrollments() {
-        return enrollmentService.getEnrollments();
+    public List<EnrollmentDto> getActivityEnrollments(@PathVariable Integer activityId) {
+        return enrollmentService.getEnrollmentsByActivity(activityId);
     }
 
     @PostMapping("/{activityId}")

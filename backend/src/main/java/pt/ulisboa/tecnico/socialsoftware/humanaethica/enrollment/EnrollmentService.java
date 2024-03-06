@@ -31,12 +31,12 @@ public class EnrollmentService {
     UserRepository userRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public List<EnrollmentDto> getEnrollments() {
+    public List<EnrollmentDto> getEnrollmentsByActivity(Integer activityId) {
         return enrollmentRepository.findAll().stream()
+                .filter(enrollment -> enrollment.getActivity().getId().equals(activityId))
                 .map(enrollment -> new EnrollmentDto(enrollment))
                 .sorted(Comparator.comparingInt(EnrollmentDto::getId))
                 .toList();
-
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
