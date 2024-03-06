@@ -8,8 +8,6 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 
 @DataJpaTest
 class GetParticipationsByActivityServiceTest extends SpockTest{
@@ -18,10 +16,7 @@ class GetParticipationsByActivityServiceTest extends SpockTest{
     def otherActivity
 
     def setup() {
-
-        given: "a member"
-        def member = authUserService.loginDemoMemberAuth().getUser()
-        and: "an institution"
+        given: "an institution"
         def institution = institutionService.getDemoInstitution()
         and: "a volunteer"
         def volunteer = new Volunteer()
