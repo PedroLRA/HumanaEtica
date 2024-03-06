@@ -41,6 +41,9 @@ class CreateEnrollmentMethodTest extends SpockTest {
         result.getVolunteer() == volunteer
         result.getEnrollmentDateTime() >= NOW
         result.getMotivation() == ENROLLMENT_MOTIVATION_1
+        and: "invocations"
+        1 * activity.addEnrollments(_)
+        1 * volunteer.addEnrollments(_)
     }
 
     @Unroll
