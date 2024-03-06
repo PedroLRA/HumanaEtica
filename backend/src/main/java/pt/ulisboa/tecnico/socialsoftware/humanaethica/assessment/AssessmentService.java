@@ -37,7 +37,7 @@ public class AssessmentService {
          Institution institution = institutionRepository.findById(institutionId)
                  .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
 
-         Assessment assessment = new Assessment(volunteer, institution, assessmentDto);
+         Assessment assessment = new Assessment(institution, volunteer, assessmentDto);
 
         assessmentRepository.save(assessment);
 

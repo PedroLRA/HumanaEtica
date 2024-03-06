@@ -38,7 +38,7 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
 
     def "institution doesn't have completed activity"() {
         when:
-        Assessment invalidAssessment = new Assessment(volunteer, institution, assessmentDto)
+        Assessment invalidAssessment = new Assessment(institution, volunteer, assessmentDto)
 
         then:
         HEException heException = thrown(HEException)
@@ -53,7 +53,7 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
         institution.addActivity(otherActivity)
 
         when:
-        Assessment validAssessment = new Assessment(volunteer, institution, assessmentDto)
+        Assessment validAssessment = new Assessment(institution, volunteer, assessmentDto)
 
         then:
         notThrown(Exception)

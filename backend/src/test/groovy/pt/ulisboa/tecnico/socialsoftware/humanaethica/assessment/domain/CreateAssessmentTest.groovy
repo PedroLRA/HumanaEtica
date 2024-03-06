@@ -53,7 +53,7 @@ class CreateAssessmentTest extends SpockTest {
         AssessmentDto assessmentDto = new AssessmentDto(review, DateHandler.toISOString(localDateTime), volunteerDto, institutionDto)
 
         when:
-        Assessment assessment = new Assessment(volunteer, institution, assessmentDto)
+        Assessment assessment = new Assessment(institution, volunteer, assessmentDto)
 
         then:
         assessmentIsInstantiatedCorrectly(assessment)

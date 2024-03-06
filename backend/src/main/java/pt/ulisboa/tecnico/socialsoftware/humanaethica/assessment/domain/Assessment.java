@@ -41,7 +41,7 @@ public class Assessment {
         institution.addAssessment(this);
     }
 
-    public Assessment(Volunteer volunteer, Institution institution, AssessmentDto assessmentDto) {
+    public Assessment(Institution institution, Volunteer volunteer, AssessmentDto assessmentDto) {
         setId(assessmentDto.getId());
         setReview(assessmentDto.getReview());
         setReviewDate(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
