@@ -18,31 +18,32 @@ class GetEnrollmentsServiceTest extends SpockTest {
     def otherActivity
 
     def setup() {
-        
-        given: "a member"
-        def member = authUserService.loginDemoMemberAuth().getUser()
-        and: "an institution"
+        given: "an institution"
         def institution = institutionService.getDemoInstitution()
+
         and: "a volunteer"
         def volunteer = new Volunteer()
-        and: "a theme"
+        userRepository.save(volunteer)
+
+        and: "an theme"
         def themes = new ArrayList<>()
         themes.add(createTheme(THEME_NAME_1, Theme.State.APPROVED,null))
-        and: "an activity"
+
+        and: "a activity"
         def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,1,ACTIVITY_DESCRIPTION_1,
             IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, null)
-        activity = new Activity(activityDto, institution, themes)
+        activity = createActivity(activityDto, institution, themes)
         and: "an enrollment"
-        def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW, activityDto)
-        def enrollment = new Enrollment(activity, volunteer, enrollmentDto)
-        enrollmentRepository.save(enrollment)
+        def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW)
+        def enrollment = createEnrollment(activity, volunteer, enrollmentDto)
+
         and: "another activity"
-        activityDto.name = ACTIVITY_NAME_2
-        otherActivity = new Activity(activityDto, institution, themes)
+        def otherActivityDto = createActivityDto(ACTIVITY_NAME_2,ACTIVITY_REGION_2,2,ACTIVITY_DESCRIPTION_2,
+            IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, null)
+        otherActivity = createActivity(otherActivityDto, institution, themes)
         and: 'another enrollment'
-        enrollmentDto.motivation = ENROLLMENT_MOTIVATION_2
-        def otherEnrollment = new Enrollment(otherActivity, volunteer, enrollmentDto)
-        enrollmentRepository.save(otherEnrollment)     
+        def otherEnrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_2, NOW)
+        def otherEnrollment = createEnrollment(otherActivity, volunteer, otherEnrollmentDto)   
     }
 
     def 'get two enrollments'() {
