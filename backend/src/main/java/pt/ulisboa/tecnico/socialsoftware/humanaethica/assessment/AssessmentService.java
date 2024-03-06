@@ -20,44 +20,42 @@ import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMes
 
 @Service
 public class AssessmentService {
-     @Autowired
-     InstitutionRepository institutionRepository;
-     @Autowired
-     UserRepository userRepository;
-     @Autowired
-     AssessmentRepository assessmentRepository;
+	@Autowired
+	InstitutionRepository institutionRepository;
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	AssessmentRepository assessmentRepository;
 
-     @Transactional(isolation = Isolation.READ_COMMITTED)
-     public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
-         if (userId == null) throw new HEException(USER_NOT_FOUND);
-         if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
+		if (userId == null) throw new HEException(USER_NOT_FOUND);
+		if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
 
-         Volunteer volunteer = (Volunteer) userRepository.findById(userId)
-                 .orElseThrow(() -> new HEException(USER_NOT_FOUND));
-         Institution institution = institutionRepository.findById(institutionId)
-                 .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
+		Volunteer volunteer = (Volunteer) userRepository.findById(userId)
+				.orElseThrow(() -> new HEException(USER_NOT_FOUND));
+		Institution institution = institutionRepository.findById(institutionId)
+				.orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
 
-         Assessment assessment = new Assessment(institution, volunteer, assessmentDto);
+		Assessment assessment = new Assessment(institution, volunteer, assessmentDto);
 
-        assessmentRepository.save(assessment);
+		assessmentRepository.save(assessment);
 
-         return new AssessmentDto(assessment, true, true);
-     }
+		return new AssessmentDto(assessment, true, true);
+	}
 
-     @Transactional(isolation = Isolation.READ_COMMITTED)
-     public List<AssessmentDto> getAssignmentsByInstitution(Integer institutionId) {
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+	public List<AssessmentDto> getAssessmentsByInstitution(Integer institutionId) {
+		if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
+		if (institutionId < 0) throw new HEException(INSTITUTION_INVALID_ID,institutionId);
+		Institution institution = institutionRepository.findById(institutionId)
+				.orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
 
-    public List<AssessmentDto> getAssessmentsByInstitution(Integer institutionId) {
-        if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
-        if (institutionId < 0) throw new HEException(INSTITUTION_INVALID_ID,institutionId);
-        Institution institution = institutionRepository.findById(institutionId)
-                .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
-
-        List<AssessmentDto> assessmentDtos = new ArrayList<AssessmentDto>();
-        assessmentRepository.getAssessmentsByInstitutionId(institutionId).forEach(assessment -> {
-            assessmentDtos.add(new AssessmentDto(assessment));
-        });
-        return assessmentDtos;
-    }
+		List<AssessmentDto> assessmentDtos = new ArrayList<AssessmentDto>();
+		assessmentRepository.getAssessmentsByInstitutionId(institutionId).forEach(assessment -> {
+			assessmentDtos.add(new AssessmentDto(assessment));
+		});
+		return assessmentDtos;
+	}
 
 }
