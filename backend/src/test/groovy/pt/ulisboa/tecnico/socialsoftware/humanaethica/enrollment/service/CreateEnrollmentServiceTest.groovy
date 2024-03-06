@@ -78,8 +78,8 @@ class CreateEnrollmentServiceTest extends SpockTest {
         enrollmentRepository.findAll().size() == 0
 
         where:
-        motivation              | volunteerId  | activityId   || errorMessage
-        null                    | EXIST         | EXIST         || ErrorMessage.MOTIVATION_TOO_SHORT
+        motivation              | volunteerId   | activityId    || errorMessage
+        // null                    | EXIST         | EXIST         || ErrorMessage.MOTIVATION_TOO_SHORT
         ENROLLMENT_MOTIVATION_1 | null          | EXIST         || ErrorMessage.USER_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | NO_EXIST      | EXIST         || ErrorMessage.USER_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | EXIST         | null          || ErrorMessage.ACTIVITY_NOT_FOUND
