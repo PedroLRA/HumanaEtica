@@ -47,7 +47,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.repository.ParticipationRepository
-
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.ParticipationService
 
 
 import spock.lang.Specification
@@ -340,6 +340,22 @@ class SpockTest extends Specification {
     }
     //Participation
     public static int PARTICIPATION_RATING_1 = 5
+    public static int PARTICIPATION_RATING_2 = 6
+
+    @Autowired
+    ParticipationRepository participationRepository
+
+    @Autowired
+    ParticipationService participationService
+
+
+    protected ParticipationDto createParticipationDto(rating, acceptanceDateTime) {
+        def participationDto = new ParticipationDto()
+        participationDto.setRating(rating);
+        participationDto.setAcceptanceDate(DateHandler.toISOString(acceptanceDateTime))
+        participationDto
+    }
+
 
     // clean database
 
@@ -352,5 +368,6 @@ class SpockTest extends Specification {
         themeRepository.deleteAll()
         assessmentRepository.deleteAll()
         enrollmentRepository.deleteAll()
+        participationRepository.deleteAll()
     }
 }

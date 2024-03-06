@@ -24,10 +24,10 @@ public class Participation {
     private Integer rating;
     private LocalDateTime acceptanceDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Activity activity;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Volunteer volunteer;
 
     @Column(name = "creation_date")
