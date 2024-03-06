@@ -21,7 +21,7 @@ class GetEnrollmentsServiceTest extends SpockTest {
         and: "an institution"
         def institution = institutionService.getDemoInstitution()
         and: "a volunteer"
-        def volunteer = createVolunteer(USER_1_NAME, USER_1_USERNAME, USER_1_PASSWORD, USER_1_EMAIL, AuthUser.Type.NORMAL, User.State.APPROVED)
+        def volunteer = new Volunteer()
         and: "a theme"
         def themes = new ArrayList<>()
         themes.add(createTheme(THEME_NAME_1, Theme.State.APPROVED,null))
