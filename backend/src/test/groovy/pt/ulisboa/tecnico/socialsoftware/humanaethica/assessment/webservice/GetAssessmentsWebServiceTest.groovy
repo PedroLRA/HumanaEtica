@@ -3,8 +3,10 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.webservice
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment
@@ -77,5 +79,27 @@ class GetAssessmentsWebServiceTest extends SpockTest {
             dto.getVolunteer().getId() in volunteerIDs
             dto.getId() in assessmentIDs
         }
+    }
+
+    def "bad request"() {
+        given:
+        demoMemberLogin()
+        def id = 2000
+
+        when:
+        webClient.get()
+                .uri("""/assessments/search/$id""")
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .retrieve()
+                .bodyToFlux(AssessmentDto.class)
+                .collectList()
+                .block()
+
+        then:
+        def error = thrown(WebClientResponseException)
+        error.statusCode == HttpStatus.BAD_REQUEST
+
+        cleanup:
+        deleteAll()
     }
 }
