@@ -63,7 +63,7 @@ class GetAssessmentsWebServiceTest extends SpockTest {
 
         when:
         def response = webClient.get()
-                .uri("""/assessments/search/$id""")
+                .uri("""/assessments/institution/$id""")
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .retrieve()
                 .bodyToFlux(AssessmentDto.class)
@@ -88,7 +88,7 @@ class GetAssessmentsWebServiceTest extends SpockTest {
 
         when:
         webClient.get()
-                .uri("""/assessments/search/$id""")
+                .uri("""/assessments/institution/$id""")
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .retrieve()
                 .bodyToFlux(AssessmentDto.class)
