@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment
+package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.service
 
 import org.spockframework.spring.EnableSharedInjection
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
