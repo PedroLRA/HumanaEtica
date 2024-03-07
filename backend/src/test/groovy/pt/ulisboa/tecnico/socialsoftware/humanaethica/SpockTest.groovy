@@ -5,21 +5,26 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.AuthUserService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthPasswordDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.repository.AuthUserRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoUtils
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserApplicationalService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserDocumentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
@@ -292,6 +297,36 @@ class SpockTest extends Specification {
         assessmentDto.setReview(review)
         assessmentDto.setReviewDate(DateHandler.toISOString(reviewDate))
         assessmentDto
+    }
+
+    protected void populateDatabaseWithAssessments() {
+        def activity = new Activity()
+        activity.setEndingDate(ONE_DAY_AGO)
+        activityRepository.save(activity)
+
+        for (int i = 0; i < 10; i++) {
+            def institution = new Institution()
+            institution.addActivity(activity)
+            institutionRepository.save(institution)
+
+            def volunteer = new Volunteer(USER_1_NAME,
+                    "b" *(i+1), USER_1_EMAIL, AuthUser.Type.DEMO, User.State.ACTIVE)
+            userRepository.save(volunteer)
+
+            def assessment = new Assessment(REVIEW, NOW, institution, volunteer)
+            assessmentRepository.save(assessment)
+
+            if (i > 5) {
+                volunteer = new Volunteer(USER_1_NAME,
+                        "c" *(i+1), USER_1_EMAIL, AuthUser.Type.DEMO, User.State.ACTIVE)
+                userRepository.save(volunteer)
+
+                assessment = new Assessment(REVIEW, NOW, institution, volunteer)
+                assessmentRepository.save(assessment)
+            }
+
+        }
+
     }
 
     // clean database

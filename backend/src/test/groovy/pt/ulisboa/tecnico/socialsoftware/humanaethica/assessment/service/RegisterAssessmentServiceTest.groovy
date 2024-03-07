@@ -27,10 +27,10 @@ class RegisterAssessmentServiceTest extends SpockTest {
 
     def setup() {
         activity = new Activity()
-        activity.setEndingDate(LocalDateTime.now().minusDays(1))
+        activity.setEndingDate(ONE_DAY_AGO)
         activityRepository.save(activity)
 
-        institution = institutionService.getDemoInstitution()
+        institution = new Institution()
         institution.addActivity(activity)
         institutionRepository.save(institution)
 
