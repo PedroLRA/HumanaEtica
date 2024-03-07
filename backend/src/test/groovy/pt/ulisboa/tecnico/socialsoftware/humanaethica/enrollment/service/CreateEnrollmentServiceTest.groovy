@@ -22,6 +22,7 @@ class CreateEnrollmentServiceTest extends SpockTest {
 
     def volunteer
     def activity
+    def otherActivity
 
     def setup() {
         given: "an institution"
@@ -39,6 +40,11 @@ class CreateEnrollmentServiceTest extends SpockTest {
         def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,1,ACTIVITY_DESCRIPTION_1,
             IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, null)
         activity = createActivity(activityDto, institution, themes)
+
+        and: "another activity"
+        def otherActivityDto = createActivityDto(ACTIVITY_NAME_2,ACTIVITY_REGION_2,2,ACTIVITY_DESCRIPTION_2,
+            IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, null)
+        otherActivity = createActivity(otherActivityDto, institution, themes)
     }
 
     def 'create enrollment'() {
@@ -82,6 +88,22 @@ class CreateEnrollmentServiceTest extends SpockTest {
         ENROLLMENT_MOTIVATION_1 | NO_EXIST      | EXIST         || ErrorMessage.USER_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | EXIST         | null          || ErrorMessage.ACTIVITY_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | EXIST         | NO_EXIST      || ErrorMessage.ACTIVITY_NOT_FOUND
+    }
+
+    def 'creating two enrollments from the same user in the same activity'() {
+        given:
+        def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW)
+        def otherEnrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_2, NOW)
+
+        when:
+        def result = enrollmentService.createEnrollment(volunteer.id, activity.id, enrollmentDto)
+        def otherResult = enrollmentService.createEnrollment(volunteer.id, activity.id, otherEnrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY
+        and: "no enrollment is stored in the database"
+        enrollmentRepository.findAll().size() == 1
     }
 
     def getVolunteerId(volunteerId){
