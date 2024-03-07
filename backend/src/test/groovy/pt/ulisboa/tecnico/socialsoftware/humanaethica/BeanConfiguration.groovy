@@ -8,6 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentController
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.AuthUserService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.config.HEPermissionEvaluator
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoService
@@ -83,6 +84,11 @@ class BeanConfiguration {
     @Bean
     AssessmentService assessmentService() {
         return new AssessmentService()
+    }
+
+    @Bean
+    AssessmentController assessmentController() {
+        return new AssessmentController()
     }
 
     @Bean

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentController
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
@@ -291,6 +292,9 @@ class SpockTest extends Specification {
 
     @Autowired
     AssessmentRepository assessmentRepository
+
+    @Autowired
+    AssessmentController assessmentController
 
     protected AssessmentDto createAssessmentDto(review, reviewDate) {
         def assessmentDto = new AssessmentDto()

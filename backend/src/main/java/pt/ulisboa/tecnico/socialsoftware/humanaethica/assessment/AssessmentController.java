@@ -21,16 +21,17 @@ public class AssessmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(AssessmentController.class);
 
-    @GetMapping("/search/{institutionId}")
+    @GetMapping("/institution/{institutionId}")
     public List<AssessmentDto> getInstitutionAssessments(@PathVariable Integer institutionId) {
         return assessmentService.getAssessmentsByInstitution(institutionId);
     }
 
-    @PostMapping("/post/{institutionId}")
+    @PostMapping()
     @PreAuthorize("hasRole('ROLE_VOLUNTEER')")
-    public AssessmentDto createAssessment(Principal principal, @PathVariable Integer institutionId,
+    public AssessmentDto createAssessment(Principal principal,
                                           @Valid @RequestBody AssessmentDto assessmentDto) {
         Integer userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
+        Integer institutionId = assessmentDto.getInstitution().getId();
         return assessmentService.createAssessment(userId, institutionId, assessmentDto);
     }
 
