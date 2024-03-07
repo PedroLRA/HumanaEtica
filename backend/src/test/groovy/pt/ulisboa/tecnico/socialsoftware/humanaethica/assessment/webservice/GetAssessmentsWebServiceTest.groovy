@@ -50,7 +50,7 @@ class GetAssessmentsWebServiceTest extends SpockTest {
             userRepository.save(volunteer)
             volunteerIDs.add(volunteer.getId())
 
-            assessment = new Assessment(REVIEW, NOW, institution, volunteer)
+            assessment = new Assessment(REVIEW, institution, volunteer)
             assessmentRepository.save(assessment)
             assessmentIDs.add(assessment.getId())
         }
@@ -74,7 +74,7 @@ class GetAssessmentsWebServiceTest extends SpockTest {
         response.size() == volunteerIDs.size()
         for (dto in response) {
             dto.getReview() == REVIEW
-            dto.reviewDate == DateHandler.toISOString(NOW)
+            dto.reviewDate != null
             dto.getInstitution().getId() == id
             dto.getVolunteer().getId() in volunteerIDs
             dto.getId() in assessmentIDs

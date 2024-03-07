@@ -47,13 +47,13 @@ class RegisterAssessmentServiceTest extends SpockTest {
         assessmentRepository.findAll().size() == 1
         and:
         result.review == REVIEW
-        result.reviewDate == DateHandler.toISOString(NOW)
+        result.reviewDate != null
         result.getVolunteer().getId() == volunteer.getId()
         result.getInstitution().getId() == institution.getId()
         and:
         def storedAssessment = assessmentRepository.findById(result.id).get()
         storedAssessment.review == REVIEW
-        storedAssessment.reviewDate == NOW
+        storedAssessment.reviewDate != null
         storedAssessment.volunteer.getId() == volunteer.getId()
         storedAssessment.institution.getId() == institution.getId()
 

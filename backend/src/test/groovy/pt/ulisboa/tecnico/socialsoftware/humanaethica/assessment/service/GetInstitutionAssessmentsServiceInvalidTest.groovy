@@ -23,7 +23,7 @@ class GetInstitutionAssessmentsServiceInvalidTest extends SpockTest{
 
         then:
         HEException heException = thrown(HEException)
-        heException.errorMessage.equals(ErrorMessage.INSTITUTION_INVALID_ID)
+        heException.errorMessage == ErrorMessage.INSTITUTION_INVALID_ID
     }
 
     def "institutionId doesn't refer to existing institution"(){
@@ -35,7 +35,7 @@ class GetInstitutionAssessmentsServiceInvalidTest extends SpockTest{
 
         then:
         HEException heException = thrown(HEException)
-        heException.errorMessage.equals(ErrorMessage.INSTITUTION_NOT_FOUND)
+        heException.errorMessage == ErrorMessage.INSTITUTION_NOT_FOUND
     }
 
     def "institutionId refers to existing institution"(){

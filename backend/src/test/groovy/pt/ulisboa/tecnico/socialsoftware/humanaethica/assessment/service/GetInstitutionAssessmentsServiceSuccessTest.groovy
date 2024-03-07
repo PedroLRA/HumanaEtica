@@ -52,7 +52,7 @@ class GetInstitutionAssessmentsServiceSuccessTest extends SpockTest {
         activity.getEndingDate() >> ONE_DAY_AGO
         institutionTarget.addActivity(activity)
         Volunteer volunteer = createVolunteer("abc", "abc123", "password","abc@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
-        Assessment assessment1 = new Assessment(review, NOW, institutionTarget, volunteer)
+        Assessment assessment1 = new Assessment(review, institutionTarget, volunteer)
         assessmentRepository.save(assessment1)
 
         when:
@@ -72,13 +72,13 @@ class GetInstitutionAssessmentsServiceSuccessTest extends SpockTest {
         Volunteer volunteer2 = createVolunteer("abc", "assess2", "password","abc2@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
         Volunteer volunteer3 = createVolunteer("abc", "assess3", "password","abc3@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
         Volunteer volunteer4 = createVolunteer("abc", "assess4", "password","abc4@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
-        Assessment assessment1 = new Assessment(review, NOW, institutionTarget, volunteer1)
+        Assessment assessment1 = new Assessment(review, institutionTarget, volunteer1)
         assessmentRepository.save(assessment1)
-        Assessment assessment2 = new Assessment(review, NOW, institutionTarget, volunteer2)
+        Assessment assessment2 = new Assessment(review, institutionTarget, volunteer2)
         assessmentRepository.save(assessment2)
-        Assessment assessment3 = new Assessment(review, NOW, institutionTarget, volunteer3)
+        Assessment assessment3 = new Assessment(review, institutionTarget, volunteer3)
         assessmentRepository.save(assessment3)
-        Assessment assessment4 = new Assessment(review, NOW, institutionTarget, volunteer4)
+        Assessment assessment4 = new Assessment(review, institutionTarget, volunteer4)
         assessmentRepository.save(assessment4)
 
         when:
@@ -104,13 +104,13 @@ class GetInstitutionAssessmentsServiceSuccessTest extends SpockTest {
         Volunteer volunteer2 = createVolunteer("abc", "assess2", "password","abc2@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
         Volunteer volunteer3 = createVolunteer("abc", "assess3", "password","abc3@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
         Volunteer volunteer4 = createVolunteer("abc", "assess4", "password","abc4@mail.com", AuthUser.Type.NORMAL, User.State.APPROVED)
-        Assessment assessment1 = new Assessment(review, NOW, institutionTarget, volunteer1)
+        Assessment assessment1 = new Assessment(review, institutionTarget, volunteer1)
         assessmentRepository.save(assessment1)
-        Assessment assessment2 = new Assessment(review, NOW, institutionTarget2, volunteer2)
+        Assessment assessment2 = new Assessment(review, institutionTarget2, volunteer2)
         assessmentRepository.save(assessment2)
-        Assessment assessment3 = new Assessment(review, NOW, institutionTarget2, volunteer3)
+        Assessment assessment3 = new Assessment(review, institutionTarget2, volunteer3)
         assessmentRepository.save(assessment3)
-        Assessment assessment4 = new Assessment(review, NOW, institutionTarget2, volunteer4)
+        Assessment assessment4 = new Assessment(review, institutionTarget2, volunteer4)
         assessmentRepository.save(assessment4)
 
         when:

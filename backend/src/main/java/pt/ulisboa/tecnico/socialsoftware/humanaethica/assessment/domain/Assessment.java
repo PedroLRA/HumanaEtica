@@ -30,9 +30,9 @@ public class Assessment {
 
     public Assessment() {}
 
-    public Assessment(String review, LocalDateTime reviewDate, Institution institution, Volunteer volunteer) {
+    public Assessment(String review, Institution institution, Volunteer volunteer) {
         setReview(review);
-        setReviewDate(reviewDate);
+        setReviewDate(DateHandler.now());
         setInstitution(institution);
         setVolunteer(volunteer);
 
@@ -43,7 +43,7 @@ public class Assessment {
 
     public Assessment(Institution institution, Volunteer volunteer, AssessmentDto assessmentDto) {
         setReview(assessmentDto.getReview());
-        setReviewDate(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
+        setReviewDate(DateHandler.now());
         setInstitution(institution);
         setVolunteer(volunteer);
 

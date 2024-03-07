@@ -26,13 +26,12 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
         volunteer.getId() >> VOLUNTEER_ID_1
 
         activity = Mock()
-        activity.getEndingDate() >> LocalDateTime.now().plusDays(1)
+        activity.getEndingDate() >> IN_ONE_DAY
 
         institution.addActivity(activity)
 
         assessmentDto = Mock()
         assessmentDto.getReview() >> REVIEW
-        assessmentDto.getReviewDate() >> DateHandler.toISOString(NOW)
     }
 
     def "institution doesn't have completed activity"() {
@@ -47,7 +46,7 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
     def "institution has one completed and one incomplete activity"() {
         given:
         Activity otherActivity = Mock()
-        otherActivity.getEndingDate() >> LocalDateTime.now().minusDays(1)
+        otherActivity.getEndingDate() >> ONE_DAY_AGO
 
         institution.addActivity(otherActivity)
 
@@ -58,7 +57,7 @@ class CreateAssessmentCompletedActivityTest extends SpockTest {
         notThrown(Exception)
 
         validAssessment.getReview() == REVIEW
-        validAssessment.getReviewDate() == NOW
+        validAssessment.getReviewDate() != null
         validAssessment.getInstitution() == institution
         validAssessment.getVolunteer() == volunteer
     }

@@ -61,7 +61,7 @@ class CreateAssessmentTest extends SpockTest {
 
     def "using explicit constructor"() {
         when:
-        Assessment assessment = new Assessment(review, localDateTime, institution, volunteer)
+        Assessment assessment = new Assessment(review, institution, volunteer)
 
         then:
         assessmentIsInstantiatedCorrectly(assessment)

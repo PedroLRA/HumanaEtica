@@ -25,13 +25,12 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         volunteer.getId() >> VOLUNTEER_ID_1
 
         activity = Mock()
-        activity.getEndingDate() >> LocalDateTime.now().minusDays(1)
+        activity.getEndingDate() >> ONE_DAY_AGO
 
         institution.addActivity(activity)
 
         assessmentDto = Mock()
         assessmentDto.getReview() >> REVIEW
-        assessmentDto.getReviewDate() >> DateHandler.toISOString(NOW)
     }
 
     def "volunteer already assessed this institution"() {
@@ -48,7 +47,7 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
 
         then:
         HEException heException = thrown(HEException)
-        heException.getErrorMessage().equals(ErrorMessage.ASSESSMENT_VOLUNTEER_ALREADY_ASSESSED_INSTITUTION)
+        heException.getErrorMessage() == ErrorMessage.ASSESSMENT_VOLUNTEER_ALREADY_ASSESSED_INSTITUTION
     }
 
     def "volunteer has assessed another institution"() {
@@ -65,7 +64,7 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         notThrown(Exception)
 
         validAssessment.getReview() == REVIEW
-        validAssessment.getReviewDate() == NOW
+        validAssessment.getReviewDate() != null
         validAssessment.getInstitution() == institution
         validAssessment.getVolunteer() == volunteer
 
@@ -84,7 +83,7 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         notThrown(Exception)
 
         validAssessment.getReview() == REVIEW
-        validAssessment.getReviewDate() == NOW
+        validAssessment.getReviewDate() != null
         validAssessment.getInstitution() == institution
         validAssessment.getVolunteer() == volunteer
     }
@@ -108,7 +107,7 @@ class CreateAssessmentOneToOneInvariantTest extends SpockTest {
         notThrown(Exception)
 
         validAssessment.getReview() == REVIEW
-        validAssessment.getReviewDate() == NOW
+        validAssessment.getReviewDate() != null
         validAssessment.getInstitution() == institution
         validAssessment.getVolunteer() == volunteer
     }

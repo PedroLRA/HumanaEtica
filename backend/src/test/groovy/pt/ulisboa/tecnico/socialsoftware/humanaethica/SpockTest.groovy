@@ -317,7 +317,7 @@ class SpockTest extends Specification {
                     "b" *(i+1), USER_1_EMAIL, AuthUser.Type.DEMO, User.State.ACTIVE)
             userRepository.save(volunteer)
 
-            def assessment = new Assessment(REVIEW, NOW, institution, volunteer)
+            def assessment = new Assessment(REVIEW, institution, volunteer)
             assessmentRepository.save(assessment)
 
             if (i > 5) {
@@ -325,7 +325,7 @@ class SpockTest extends Specification {
                         "c" *(i+1), USER_1_EMAIL, AuthUser.Type.DEMO, User.State.ACTIVE)
                 userRepository.save(volunteer)
 
-                assessment = new Assessment(REVIEW, NOW, institution, volunteer)
+                assessment = new Assessment(REVIEW, institution, volunteer)
                 assessmentRepository.save(assessment)
             }
 
