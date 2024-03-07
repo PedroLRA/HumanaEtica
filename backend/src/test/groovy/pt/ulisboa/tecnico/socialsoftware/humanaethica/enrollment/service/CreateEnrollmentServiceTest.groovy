@@ -20,27 +20,25 @@ class CreateEnrollmentServiceTest extends SpockTest {
     public static final String EXIST = "exist"
     public static final String NO_EXIST = "noExist"
 
-    def member
     def volunteer
-    def institution
     def activity
-    def theme
 
     def setup() {
-        given: "a member"
-        member = authUserService.loginDemoMemberAuth().getUser()
+        given: "an institution"
+        def institution = institutionService.getDemoInstitution()
+
         and: "a volunteer"
-        volunteer = authUserService.loginDemoVolunteerAuth().getUser()
-        and: "an institution"
-        institution = institutionService.getDemoInstitution()
-        and: "an activity"
-        theme = new Theme(THEME_NAME_1, Theme.State.APPROVED,null)
-        themeRepository.save(theme)
-        def themesDto = new ArrayList<>()
-        themesDto.add(new ThemeDto(theme,false,false,false))
+        volunteer = new Volunteer()
+        userRepository.save(volunteer)
+
+        and: "an theme"
+        def themes = new ArrayList<>()
+        themes.add(createTheme(THEME_NAME_1, Theme.State.APPROVED,null))
+
+        and: "a activity"
         def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,1,ACTIVITY_DESCRIPTION_1,
-            IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS,themesDto)
-        activity = activityService.registerActivity(member.id, activityDto)
+            IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, null)
+        activity = createActivity(activityDto, institution, themes)
     }
 
     def 'create enrollment'() {
