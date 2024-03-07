@@ -20,23 +20,24 @@ class GetParticipationsByActivityServiceTest extends SpockTest{
         def institution = institutionService.getDemoInstitution()
         and: "a volunteer"
         def volunteer = new Volunteer()
+        userRepository.save(volunteer)
         and: "a theme"
         def themes = new ArrayList<>()
         themes.add(createTheme(THEME_NAME_1, Theme.State.APPROVED,null))
         and: "an activity"
         def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,1,ACTIVITY_DESCRIPTION_1,
                 NOW,IN_ONE_DAY,IN_TWO_DAYS, null)
-        activity = new Activity(activityDto, institution, themes)
+        activity = createActivity(activityDto, institution, themes)
         and: "a participation"
         def participationDto = createParticipationDto(PARTICIPATION_RATING_1, IN_THREE_DAYS)
-        def participation = new Participation(activity, volunteer, participationDto)
+        def participation = createParticipation(activity, volunteer, participationDto)
         participationRepository.save(participation)
         and: "another activity"
         activityDto.name = ACTIVITY_NAME_2
-        otherActivity = new Activity(activityDto, institution, themes)
+        otherActivity = createActivity(activityDto, institution, themes)
         and: 'another participation'
         participationDto.rating = PARTICIPATION_RATING_2
-        def otherParticipation = new Participation(otherActivity, volunteer, participationDto)
+        def otherParticipation = createParticipation(otherActivity, volunteer, participationDto)
         participationRepository.save(otherParticipation)
     }
 
