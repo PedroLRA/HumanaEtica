@@ -67,7 +67,6 @@ class CreateEnrollmentMethodTest extends SpockTest {
         " "            || ErrorMessage.MOTIVATION_TOO_SHORT
     }
 
-    @Unroll
     def "create enrollment and violate can enroll only once"() {
         given:
         activity.getApplicationDeadline() >> IN_ONE_DAY
@@ -80,7 +79,6 @@ class CreateEnrollmentMethodTest extends SpockTest {
         then:
         def error = thrown(HEException)
         error.getErrorMessage() == ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY
-        
     }
 
     @Unroll
