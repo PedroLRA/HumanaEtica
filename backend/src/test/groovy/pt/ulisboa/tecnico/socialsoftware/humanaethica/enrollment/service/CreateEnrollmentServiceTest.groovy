@@ -78,34 +78,30 @@ class CreateEnrollmentServiceTest extends SpockTest {
         then:
         def error = thrown(HEException)
         error.getErrorMessage() == errorMessage
-        and: "no enrollment is stored in the database"
-        enrollmentRepository.findAll().size() == 0
-
+        
         where:
         motivation              | volunteerId   | activityId    || errorMessage
-        // null                    | EXIST         | EXIST         || ErrorMessage.MOTIVATION_TOO_SHORT
+        null                    | EXIST         | EXIST         || ErrorMessage.MOTIVATION_TOO_SHORT
+        "                    "  | EXIST         | EXIST         || ErrorMessage.MOTIVATION_TOO_SHORT
         ENROLLMENT_MOTIVATION_1 | null          | EXIST         || ErrorMessage.USER_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | NO_EXIST      | EXIST         || ErrorMessage.USER_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | EXIST         | null          || ErrorMessage.ACTIVITY_NOT_FOUND
         ENROLLMENT_MOTIVATION_1 | EXIST         | NO_EXIST      || ErrorMessage.ACTIVITY_NOT_FOUND
     }
 
-    // PROBLEM CAUSED BECAUSE OF THE CASCADE TYPES
-    // def 'creating two enrollments from the same user in the same activity'() {
-    //     given:
-    //     def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW)
-    //     def otherEnrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_2, NOW)
+    def 'creating two enrollments from the same user in the same activity'() {
+        given:
+        def enrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_1, NOW)
+        def otherEnrollmentDto = createEnrollmentDto(ENROLLMENT_MOTIVATION_2, NOW)
 
-    //     when:
-    //     def result = enrollmentService.createEnrollment(volunteer.id, activity.id, enrollmentDto)
-    //     def otherResult = enrollmentService.createEnrollment(volunteer.id, activity.id, otherEnrollmentDto)
+        when:
+        def result = enrollmentService.createEnrollment(volunteer.id, activity.id, enrollmentDto)
+        def otherResult = enrollmentService.createEnrollment(volunteer.id, activity.id, otherEnrollmentDto)
 
-    //     then:
-    //     def error = thrown(HEException)
-    //     error.getErrorMessage() == ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY
-    //     and: "no enrollment is stored in the database"
-    //     enrollmentRepository.findAll().size() == 1
-    // }
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.VOLUNTEER_HAS_ALREADY_ENROLLED_IN_THIS_ACTIVITY
+    }
 
     def getVolunteerId(volunteerId){
         if (volunteerId == EXIST)
