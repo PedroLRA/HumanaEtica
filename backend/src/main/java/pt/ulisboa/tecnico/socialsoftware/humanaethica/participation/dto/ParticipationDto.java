@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 //import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 //import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
@@ -16,6 +17,7 @@ public class ParticipationDto {
     private String acceptanceDate;
     private String creationDate;
     private ActivityDto activityDto;
+    private Volunteer volunteer;
 
     public ParticipationDto() {
 
@@ -27,6 +29,7 @@ public class ParticipationDto {
         setRating(participation.getRating());
         setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
         setCreationDate(DateHandler.toISOString(participation.getCreationDate()));
+        setVolunteer(participation.getVolunteer());
     }
 
     public Integer getId() {
@@ -71,6 +74,14 @@ public class ParticipationDto {
 
     public void setParticipantsNumberLimit(Integer participantsNumberLimit) {
         this.activityDto.setParticipantsNumberLimit(participantsNumberLimit);
+    }
+
+    public void setVolunteer(Volunteer volunteer){
+        this.volunteer = volunteer;
+    }
+
+    public Volunteer getVolunteer() {
+        return volunteer;
     }
 
     @Override
