@@ -28,9 +28,15 @@ public class ParticipationController {
 
     @PostMapping("/{activityId}")
     @PreAuthorize("(hasRole('ROLE_MEMBER'))")
-    public ParticipationDto createParticipation(@PathVariable Integer activityId, @Valid @RequestBody ParticipationDto participationDto) {
+    
+    /*public ParticipationDto createParticipation(@PathVariable Integer activityId, @Valid @RequestBody ParticipationDto participationDto) {
         //int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
         return participationService.createParticipation(activityId, participationDto);
+    }*/
+
+    public ParticipationDto createParticipation(Principal principal,@PathVariable Integer activityId, @Valid @RequestBody ParticipationDto participationDto) {
+        int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
+        return participationService.createParticipation(userId, activityId, participationDto);
     }
 
 }
