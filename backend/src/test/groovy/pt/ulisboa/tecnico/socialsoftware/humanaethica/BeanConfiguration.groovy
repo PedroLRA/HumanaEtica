@@ -90,6 +90,9 @@ class BeanConfiguration {
     @Bean
     AssessmentController assessmentController() {
         return new AssessmentController()
+    }
+    
+    @Bean    
     ParticipationService participationService() {
         return new ParticipationService()
     }
