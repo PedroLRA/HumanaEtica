@@ -27,7 +27,7 @@ public class ParticipationController {
 
 
     @PostMapping("/{activityId}")
-    @PreAuthorize("(hasRole('ROLE_MEMBER'))")
+    @PreAuthorize("hasRole('ROLE_MEMBER') and hasPermission(#activityId, 'ACTIVITY.MEMBER')")
     
     /*public ParticipationDto createParticipation(@PathVariable Integer activityId, @Valid @RequestBody ParticipationDto participationDto) {
         //int userId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
