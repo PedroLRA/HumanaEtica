@@ -208,7 +208,8 @@ export default class VolunteerActivitiesView extends Vue {
   //Conditional rendering to Apply button
   canApply(activity: Activity): boolean {
     const isEnrolled = this.isAlreadyEnrolled(activity);
-    return !isEnrolled;
+    const isApplicationOpen = this.isApplicationOpen(activity);
+    return !isEnrolled && isApplicationOpen;
   }
 
   isAlreadyEnrolled(activity: Activity) {
@@ -222,6 +223,12 @@ export default class VolunteerActivitiesView extends Vue {
       return false;
     }
     return false;
+  }
+
+  isApplicationOpen(activity: Activity): boolean {
+    const now = new Date();
+    const applicationDeadline = new Date(activity.applicationDeadline);
+    return applicationDeadline > now;
   }
 
   newEnrollment() {
