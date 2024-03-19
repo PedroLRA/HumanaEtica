@@ -12,6 +12,7 @@ public class ActivityDto {
     private String name;
     private String region;
     private Integer participantsNumberLimit;
+    private Integer numberOfParticipations;
     private String description;
     private String startingDate;
     private String endingDate;
@@ -41,6 +42,7 @@ public class ActivityDto {
         setStartingDate(DateHandler.toISOString(activity.getStartingDate()));
         setEndingDate(DateHandler.toISOString(activity.getEndingDate()));
         setApplicationDeadline(DateHandler.toISOString(activity.getApplicationDeadline()));
+        setNumberOfParticipations(activity.getNumberOfParticipatingVolunteers());
 
         if (deepCopyInstitution && (activity.getInstitution() != null)) {
                 setInstitution(new InstitutionDto(activity.getInstitution(), false, false));
@@ -150,6 +152,14 @@ public class ActivityDto {
 
     public void setNumberOfEnrollments(Integer numberOfEnrollments) {
         this.numberOfEnrollments = numberOfEnrollments;
+    }    
+
+    public Integer getNumberOfParticipations() {
+        return numberOfParticipations;
+    }
+    
+    public void setNumberOfParticipations(Integer numberOfParticipations) {
+        this.numberOfParticipations= numberOfParticipations;
     }
 
     @Override
