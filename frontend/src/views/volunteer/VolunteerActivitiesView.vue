@@ -40,6 +40,19 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                class="mr-2 action-button"
+                color="blue"
+                v-on="on"
+                data-cy="enrollButton"
+                @click="newEnrollment()"
+                >mdi-arrow-right-bold-circle</v-icon
+              >
+            </template>
+            <span>Apply for Activity</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </v-card>
@@ -145,6 +158,11 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  newEnrollment() {
+    //Call dialog and other function to create enrollment
+    console.log('click');
   }
 }
 </script>
