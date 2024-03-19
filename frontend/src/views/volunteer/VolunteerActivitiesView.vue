@@ -40,7 +40,7 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip v-if="canApply(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                 class="mr-2 action-button"
@@ -84,6 +84,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
+import Enrollment from '@/models/enrollment/Enrollment';
 import Assessment from '@/models/assessment/Assessment';
 import { stringToDate } from '@/services/ConvertDateService';
 import Participation from '@/models/participation/Participation';
@@ -95,6 +96,7 @@ import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+  userEnrollments: Enrollment[] = [];
   participatingActivityIds: (number | null)[] = [];
   assessments: Assessment[] = [];
   assessedActivityIds: (number | null)[] = [];
@@ -172,6 +174,7 @@ export default class VolunteerActivitiesView extends Vue {
     await this.$store.dispatch('loading');
     try {
       this.activities = await RemoteServices.getActivities();
+      this.userEnrollments = await RemoteServices.getVolunteerEnrollments();
 
       const participations = await RemoteServices.getVolunteerParticipations();
       this.participatingActivityIds = participations.map(
@@ -200,6 +203,25 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  //Conditional rendering to Apply button
+  canApply(activity: Activity): boolean {
+    const isEnrolled = this.isAlreadyEnrolled(activity);
+    return !isEnrolled;
+  }
+
+  isAlreadyEnrolled(activity: Activity) {
+    if (this.userEnrollments.length > 0) {
+      const enrolled = this.userEnrollments.filter(
+        (a: Enrollment) => a.activityId === activity.id,
+      );
+      if (enrolled.length > 0) {
+        return true;
+      }
+      return false;
+    }
+    return false;
   }
 
   newEnrollment() {
