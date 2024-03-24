@@ -28,6 +28,25 @@
           >
         </v-card-title>
       </template>
+      <template v-slot:[`item.themes`]="{ item }">
+        <v-chip v-for="theme in item.themes" v-bind:key="theme.id">
+          {{ theme.completeName }}
+        </v-chip>
+      </template>
+      <template v-slot:[`item.action`] = "{ item }" >
+          <v-tooltip v-if="canParticipate(item)" bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                class="mr-2 action-button"
+                color="grey"
+                v-on="on"
+                data-cy="selectParticipantButton"
+                @click="selectNewParticipant()"
+              >mdi-checkbox-marked</v-icon>
+            </template>
+            <span>Select Participant</span>
+          </v-tooltip>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -69,6 +88,13 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
       align: 'left',
       width: '5%',
     },
+    {
+      text: 'Actions',
+      value: 'action',
+      align: 'left',
+      sortable: false,
+      width: '5%',
+    },
   ];
 
   async created() {
@@ -79,6 +105,7 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
         this.enrollments = await RemoteServices.getActivityEnrollments(
           this.activity.id,
         );
+
       } catch (error) {
         await this.$store.dispatch('error', error);
       }
@@ -90,6 +117,42 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     await this.$store.dispatch('setActivity', null);
     this.$router.push({ name: 'institution-activities' }).catch(() => {});
   }
+
+    //Conditional rendering to Apply button
+    canParticipate(enrollment:Enrollment): boolean {
+      //const isParticipating = this.isVolunteerParticipating(activity);
+      const isAnySpotOpen = this.isApplicationOpen();
+      return isAnySpotOpen;
+  }
+
+  /*isVolunteerParticipating(activity: Activity) {
+    if (this.enrollments.) {
+      
+    }
+
+      if (enrolled.length > 0) {
+        return true;
+      }
+      return false;
+    
+    return false;
+  }*/
+
+  isApplicationOpen() {
+    if(this.activity.numberOfParticipations < this.activity.participantsNumberLimit){
+      return true;
+    }  
+    return false;
+  }
+
+
+  selectNewParticipant() {
+    //Call dialog and other function to create enrollment
+    console.log('click');
+  }
+
+
+
 }
 </script>
 
