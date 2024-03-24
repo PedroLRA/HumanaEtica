@@ -120,23 +120,17 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
 
     //Conditional rendering to Apply button
     canParticipate(enrollment:Enrollment): boolean {
-      //const isParticipating = this.isVolunteerParticipating(activity);
+      const isParticipating = this.isVolunteerParticipating(enrollment);
       const isAnySpotOpen = this.isApplicationOpen();
-      return isAnySpotOpen;
+      return isAnySpotOpen && !isParticipating;
   }
 
-  /*isVolunteerParticipating(activity: Activity) {
-    if (this.enrollments.) {
-      
+  isVolunteerParticipating(enrollment:Enrollment) {
+    if (enrollment.participating == true){
+      return true;
     }
-
-      if (enrolled.length > 0) {
-        return true;
-      }
-      return false;
-    
     return false;
-  }*/
+  }
 
   isApplicationOpen() {
     if(this.activity.numberOfParticipations < this.activity.participantsNumberLimit){
