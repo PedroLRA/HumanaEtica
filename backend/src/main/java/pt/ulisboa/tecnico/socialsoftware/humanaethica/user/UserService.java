@@ -22,6 +22,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.repository.InstitutionRepository;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.ParticipationRepository;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Admin;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member;
@@ -49,6 +52,9 @@ public class UserService {
 
     @Autowired
     private InstitutionRepository institutionRepository;
+
+    @Autowired
+    private ParticipationRepository participationRepository;
 
     @Autowired
     private AuthUserRepository authUserRepository;
@@ -216,6 +222,17 @@ public class UserService {
         return userRepository.getAssessmentsByVolunteerId(volunteerId).stream()
                 .sorted(Comparator.comparing(Assessment::getReviewDate))
                 .map(AssessmentDto::new)
+                .toList();
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<ParticipationDto> getParticipationsByVolunteer(Integer volunteerId) {
+        if (volunteerId == null) throw new HEException(USER_NOT_FOUND);
+        userRepository.findById(volunteerId).orElseThrow(() -> new HEException(USER_NOT_FOUND));
+
+        return participationRepository.getParticipationsByVolunteerId(volunteerId).stream()
+                .sorted(Comparator.comparing(Participation::getAcceptanceDate))
+                .map(ParticipationDto::new)
                 .toList();
     }
 

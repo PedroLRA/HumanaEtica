@@ -16,6 +16,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.dto.InstitutionDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User;
@@ -108,6 +109,13 @@ public class UserController {
     public List<AssessmentDto> getVolunteerAssessments(Principal principal) {
         Volunteer volunteer = (Volunteer) ((AuthUser) ((Authentication) principal).getPrincipal()).getUser();
         return userService.getAssessmentsByVolunteer(volunteer.getId());
+    }
+
+    @GetMapping("/users/getParticipations")
+    @PreAuthorize("hasRole('ROLE_VOLUNTEER')")
+    public List<ParticipationDto> getVolunteerParticipations(Principal principal) {
+        Volunteer volunteer = (Volunteer) ((AuthUser) ((Authentication) principal).getPrincipal()).getUser();
+        return userService.getParticipationsByVolunteer(volunteer.getId());
     }
 
 }
