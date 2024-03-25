@@ -1,10 +1,13 @@
 describe('Volunteer', () => {
   beforeEach(() => {
-    cy.demoMemberLogin()
+    cy.demoMemberLogin();
+    cy.deleteAllButArs();
+    cy.createParticipations();
   });
 
   afterEach(() => {
     cy.logout();
+    cy.deleteAllButArs();
   });
 
   it('close', () => {
