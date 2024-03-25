@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
@@ -99,6 +100,12 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_MEMBER')")
     public InstitutionDto getInstitution(@PathVariable int userId) {
         return userService.getInstitution(userId);
+    }
+
+    @GetMapping("/users/{userId}/getAssessments")
+    @PreAuthorize("hasRole('ROLE_VOLUNTEER')")
+    public List<AssessmentDto> getVolunteerAssessments(@PathVariable Integer userId) {
+        return userService.getAssessmentsByVolunteer(userId);
     }
 
 }

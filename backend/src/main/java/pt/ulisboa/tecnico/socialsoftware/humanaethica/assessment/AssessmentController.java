@@ -22,11 +22,6 @@ public class AssessmentController {
         return assessmentService.getAssessmentsByInstitution(institutionId);
     }
 
-    @GetMapping()
-    public List<AssessmentDto> getVolunteerAssessments(@PathVariable Integer volunteerId) {
-        return assessmentService.getAssessmentsByVolunteer(volunteerId);
-    }
-
     @PostMapping()
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
     public AssessmentDto createAssessment(Principal principal, @PathVariable Integer institutionId, @Valid @RequestBody AssessmentDto assessmentDto) {
