@@ -20,4 +20,13 @@ describe('Volunteer', () => {
     cy.get('[data-cy="institution"]').click();
     cy.get('[data-cy="activities"]').click();
   });
+
+  it('test', () => {
+    cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
+    cy.get('[data-cy="institution"]').click();
+    cy.get('[data-cy="activities"]').click();
+    cy.wait('@getInstitutions');
+    cy.get('[data-cy="memberActivitiesTable"]')
+        .should('have.length', 2)
+  });
 });
