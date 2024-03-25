@@ -21,6 +21,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User.Role;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.UserDocument;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.RegisterUserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 
@@ -102,10 +103,11 @@ public class UserController {
         return userService.getInstitution(userId);
     }
 
-    @GetMapping("/users/{userId}/getAssessments")
+    @GetMapping("/users/getAssessments")
     @PreAuthorize("hasRole('ROLE_VOLUNTEER')")
-    public List<AssessmentDto> getVolunteerAssessments(@PathVariable Integer userId) {
-        return userService.getAssessmentsByVolunteer(userId);
+    public List<AssessmentDto> getVolunteerAssessments(Principal principal) {
+        Volunteer volunteer = (Volunteer) ((AuthUser) ((Authentication) principal).getPrincipal()).getUser();
+        return userService.getAssessmentsByVolunteer(volunteer.getId());
     }
 
 }
