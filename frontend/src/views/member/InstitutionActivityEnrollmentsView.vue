@@ -41,13 +41,22 @@
                 color="grey"
                 v-on="on"
                 data-cy="selectParticipantButton"
-                @click="selectNewParticipant()"
+                @click="selectNewParticipant(item)"
               >mdi-checkbox-marked</v-icon>
             </template>
             <span>Select Participant</span>
           </v-tooltip>
       </template>
     </v-data-table>
+    <select-participant-dialog
+      v-if="currentEnrollment && selectParticipationDialog"
+      v-model="selectParticipationDialog"
+      :activity="activity"
+      :themes="themes"
+      :enrollments = "currentEnrollment"
+      v-on:save-participation="onSaveParticipation"
+      v-on:close-select-participation-dialog="onCloseSelectParticipationDialog"
+    />
   </v-card>
 </template>
 
@@ -56,12 +65,22 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import Enrollment from '@/models/enrollment/Enrollment';
+import Theme from '@/models/theme/Theme';
+import ParticipantSelectionDialog from './ParticipationSelectionDialog.vue';
 
-@Component({})
+@Component({
+  components: {
+    'select-participant-dialog': ParticipantSelectionDialog,
+  },
+})
 export default class InstitutionActivityEnrollmentsView extends Vue {
   activity!: Activity;
   enrollments: Enrollment[] = [];
+  themes: Theme[] = [];
   search: string = '';
+  currentEnrollment: Enrollment | null = null;
+
+  selectParticipationDialog: boolean = false;
 
   headers: object = [
     {
@@ -139,10 +158,22 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     return false;
   }
 
+  onCloseSelectParticipationDialog() {
+    this.currentEnrollment = null;
+    this.selectParticipationDialog = false;
+  }
 
-  selectNewParticipant() {
-    //Call dialog and other function to create enrollment
-    console.log('click');
+  async onSaveParticipation(activity: Activity) {
+    
+  }
+
+
+  selectNewParticipant(enrollment: Enrollment) {
+    //Call dialog and other function to create participation
+    //console.log('click');
+    this.currentEnrollment = enrollment;
+    this.selectParticipationDialog = true;
+    
   }
 
 
