@@ -40,6 +40,19 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-icon
+                class="mr-2 action-button"
+                color="blue"
+                v-on="on"
+                data-cy="writeAssessmentButton"
+                @click="newAssessment(item)"
+                >mdi-square-edit-outline</v-icon
+              >
+            </template>
+            <span>Write Assessment</span>
+          </v-tooltip>
         </template>
       </v-data-table>
     </v-card>
@@ -51,12 +64,17 @@ import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
+import Assessment from '@/models/assessment/Assessment';
 
 @Component({
   methods: { show },
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+
+  currentAssessment: Assessment | null = null;
+  writeAssessmentDialog: boolean = false;
+
   search: string = '';
   headers: object = [
     {
@@ -145,6 +163,12 @@ export default class VolunteerActivitiesView extends Vue {
         await this.$store.dispatch('error', error);
       }
     }
+  }
+
+  newAssessment(activity: Activity) {
+    console.log(activity);
+    this.currentAssessment = new Assessment();
+    this.writeAssessmentDialog = true;
   }
 }
 </script>
