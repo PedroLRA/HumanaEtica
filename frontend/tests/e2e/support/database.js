@@ -77,7 +77,7 @@ Cypress.Commands.add('createDemoEntities', () => {
   })
 });
 
-Cypress.Commands.add('hedb-create-assessments', () => {
+Cypress.Commands.add('populateAssessments', () => {
   // Institutions
   cy.task('queryDatabase', {
     query: "INSERT INTO" + INSTITUTION_COLUMNS
