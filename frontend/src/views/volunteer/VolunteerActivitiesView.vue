@@ -40,7 +40,7 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip bottom>
+          <v-tooltip v-if="activityHasEnded(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                 class="mr-2 action-button"
@@ -65,6 +65,7 @@ import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
 import Assessment from '@/models/assessment/Assessment';
+import { stringToDate } from '@/services/ConvertDateService';
 
 @Component({
   methods: { show },
@@ -169,6 +170,12 @@ export default class VolunteerActivitiesView extends Vue {
     console.log(activity);
     this.currentAssessment = new Assessment();
     this.writeAssessmentDialog = true;
+  }
+
+  activityHasEnded(activity: Activity) {
+    const now = new Date();
+    const activityEndDate = stringToDate(activity.formattedEndingDate);
+    return activityEndDate !== null && activityEndDate < now;
   }
 }
 </script>

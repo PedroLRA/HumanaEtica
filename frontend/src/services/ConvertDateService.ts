@@ -54,3 +54,22 @@ export function milisecondsToHHMMSS(
   }
   return '';
 }
+
+export function stringToDate(dateString: string): Date | null {
+  const parts = dateString.split(/[- :]/);
+  if (parts.length !== 5) {
+    console.error('Date must have the format: YYYY-MM-DD HH:MM.');
+    return null;
+  }
+
+  const [year, month, day, hour, minute] = parts.map(Number);
+
+  const date = new Date(year, month - 1, day, hour, minute);
+
+  if (isNaN(date.getTime())) {
+    console.error('Invalid date.');
+    return null;
+  }
+
+  return date;
+}
