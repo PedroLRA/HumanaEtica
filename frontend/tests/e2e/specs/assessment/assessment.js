@@ -1,16 +1,37 @@
-describe('Assessment', () => {
-    beforeEach(() => {
+describe("Assessment", () => {
+    beforeEach( () => {
         cy.deleteAllButArs();
-        cy.createDemoEntities();
-        cy.populateAssessments();
-        cy.demoVolunteerLogin();
+        cy.hedb-create-assessments();
     });
 
-    afterEach(() => {
+    afterEach( () => {
+        cy.deleteAllButArs();
+    });
+
+    it('create assessments', () => {
+        const REVIEW = "This is a review";
+
+        cy.demoMemberlogin();
+
+        cy.intercept('GET', '/institutions/*/assessments').as('getAssessments');
+        // go to institution assessments page
+        cy.get('[data-cy="institution"]').click();
+        cy.get('[data-cy="assessments"]').click();
+        cy.wait('@getAssessments');
+        // check if table has only one assessment (and is formatted correctly)
+        cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
+            .should('have.length', 1)
+            .eq(0)
+            .children()
+            .should('have.length', 3);
+        // check if review has the text inserted by the volunteer
+        cy.get('[data-cy="institutionAssessmentTable"] tbody tr')
+            .eq(0)
+            .children()
+            .eq(0).should('contain', REVIEW);
+        // logout
         cy.logout();
-        cy.deleteAllButArs();
     });
-
     it('volunteer activity table has 6 instances', () => {
         // intercept create assessment request
         //cy.intercept('POST', '/institutions/[0-9]+/assessments').as('saveAssessment');
