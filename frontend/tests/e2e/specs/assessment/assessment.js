@@ -1,7 +1,7 @@
 describe("Assessment", () => {
     beforeEach( () => {
         cy.deleteAllButArs();
-        cy.hedb-create-assessments();
+        cy.hedb_create_assessments();
     });
 
     afterEach( () => {

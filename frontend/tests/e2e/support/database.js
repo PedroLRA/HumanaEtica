@@ -80,92 +80,92 @@ Cypress.Commands.add('createDemoEntities', () => {
 Cypress.Commands.add('populateAssessments', () => {
   // Institutions
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + INSTITUTION_COLUMNS
+    query: "INSERT INTO " + INSTITUTION_COLUMNS
         + "VALUES ('1', 't', 'abca428c09862e89', '2024-02-06 17:58:21.402146', 'demo_institution@mail.com',"
-        + "DEMO INSTITUTION, '000000000', '2024-02-06 17:58:21.402134')",
+        + "'DEMO INSTITUTION', '000000000', '2024-02-06 17:58:21.402134')",
     credentials: credentials,
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + INSTITUTION_COLUMNS
+    query: "INSERT INTO " + INSTITUTION_COLUMNS
         + "VALUES ('2', 't', 'abca428c09862e89', '2024-02-06 17:58:21.402146', 'demo_institution@mail.com',"
-        + "DEMO INSTITUTION-2, '000000002', '2024-02-06 17:58:21.402134')",
+        + "'DEMO INSTITUTION-2', '000000002', '2024-02-06 17:58:21.402134')",
     credentials: credentials,
   });
   // Users
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + USER_COLUMNS
+    query: "INSERT INTO " + USER_COLUMNS
         + "VALUES ('MEMBER', '2', '2024-02-06 17:58:21.419878', 'DEMO-MEMBER', 'MEMBER', 'ACTIVE', '1')",
     credentials: credentials,
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + USER_COLUMNS
-        + "VALUES ('VOLUNTEER', '3', '2024-02-06 17:58:23.732513', 'DEMO-VOLUNTEER', 'VOLUNTEER', 'ACTIVE', '\N')",
+    query: "INSERT INTO " + USER_COLUMNS
+        + "VALUES ('VOLUNTEER', '3', '2024-02-06 17:58:23.732513', 'DEMO-VOLUNTEER', 'VOLUNTEER', 'ACTIVE', '1')",
     credentials: credentials,
   });
   // AuthUsers
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + AUTH_USERS_COLUMNS
-        + "VALUES ('DEMO', '2', 't', 'demo_member@mail.com, '\N', '\N', 'demo-member', '\N', '\N', '2')",
+    query: "INSERT INTO " + AUTH_USERS_COLUMNS
+        + "VALUES ('DEMO', '2', 't', 'demo_member@mail.com', 'demo-member', '2')",
     credentials: credentials,
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + AUTH_USERS_COLUMNS
-        + "VALUES ('DEMO', '3', 't', 'demo_volunteer@mail.com, '\N', '\N', 'demo-volunteer', '\N', '\N', '3')",
+    query: "INSERT INTO " + AUTH_USERS_COLUMNS
+        + "VALUES ('DEMO', '3', 't', 'demo_volunteer@mail.com', 'demo-volunteer', '3')",
     credentials: credentials,
   });
   // Activities
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ACTIVITY_COLUMNS + generateActivityTuple("1", "Same institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A1", "1", "1"),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple("1", "Same institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A1", "1", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ACTIVITY_COLUMNS + generateActivityTuple("2", "Same institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A2", "1", "1"),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple("2", "Same institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A2", "1", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ACTIVITY_COLUMNS + generateActivityTuple("3", "Same institution is enrolled and does not participate", "2024-02-08 10:58:21.402146", "A3", "2", "1"),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple("3", "Same institution is enrolled and does not participate", "2024-02-08 10:58:21.402146", "A3", "2", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ACTIVITY_COLUMNS + generateActivityTuple("4", "Same institution is not enrolled", "2024-02-08 10:58:21.402146", "A4", "2", "1"),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple("4", "Same institution is not enrolled", "2024-02-08 10:58:21.402146", "A4", "2", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ACTIVITY_COLUMNS + generateActivityTuple("5", "Same institution before end date", "2024-08-08 10:58:21.402146", "A5", "2", "1"),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple("5", "Same institution before end date", "2024-08-08 10:58:21.402146", "A5", "2", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ACTIVITY_COLUMNS + generateActivityTuple("6", "Other institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A6", "3", "2"),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple("6", "Other institution is enrolled and participates", "2024-02-08 10:58:21.402146", "A6", "3", "2"),
     credentials: credentials
   });
   // Enrollments
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ENROLLMENT_COLUMNS + generateEnrollmentTuple("1", "1"),
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple("1", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ENROLLMENT_COLUMNS + generateEnrollmentTuple("2", "2"),
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple("2", "2"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ENROLLMENT_COLUMNS + generateEnrollmentTuple("3", "3"),
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple("3", "3"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + ENROLLMENT_COLUMNS + generateEnrollmentTuple("4", "6"),
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple("4", "6"),
     credentials: credentials
   });
   // Participations
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + PARTICIPATION_COLUMNS + generateParticipationTuple("1", "1"),
+    query: "INSERT INTO " + PARTICIPATION_COLUMNS + generateParticipationTuple("1", "1"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + PARTICIPATION_COLUMNS + generateParticipationTuple("2", "2"),
+    query: "INSERT INTO " + PARTICIPATION_COLUMNS + generateParticipationTuple("2", "2"),
     credentials: credentials
   });
   cy.task('queryDatabase', {
-    query: "INSERT INTO" + PARTICIPATION_COLUMNS + generateParticipationTuple("3", "6"),
+    query: "INSERT INTO " + PARTICIPATION_COLUMNS + generateParticipationTuple("3", "6"),
     credentials: credentials
   });
 })
@@ -201,10 +201,10 @@ function generateActivityTuple(id, description, ending_date, name, participants_
 
 function generateEnrollmentTuple(id, activity_id) {
   return "VALUES ('"
-      + id + "'2024-02-06 18:51:37.595713', 'sql-inserted-motivation', '" + activity_id + "', '3')";
+      + id + "', '2024-02-06 18:51:37.595713', 'sql-inserted-motivation', '" + activity_id + "', '3')";
 }
 
 function generateParticipationTuple(id, activity_id) {
   return "VALUES ('"
-      + id + "'2024-02-06 18:51:37.595713', '5', '" + activity_id + "', '3')";
+      + id + "', '2024-02-06 18:51:37.595713', '5', '" + activity_id + "', '3')";
 }
