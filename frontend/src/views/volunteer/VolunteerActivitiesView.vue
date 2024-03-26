@@ -47,7 +47,7 @@
                 color="blue"
                 v-on="on"
                 data-cy="enrollButton"
-                @click="newEnrollment()"
+                @click="newEnrollment(item)"
                 >mdi-arrow-right-bold-circle</v-icon
               >
             </template>
@@ -68,6 +68,13 @@
           </v-tooltip>
         </template>
       </v-data-table>
+      <enrollment-dialog
+        v-if="currentEnrollment && createEnrollmentDialog"
+        v-model="createEnrollmentDialog"
+        :enrollment="currentEnrollment"
+        v-on:save-enrollment="onSaveEnrollment"
+        v-on:close-enrollment-dialog="onCloseEnrollmentDialog"
+      />
       <assessment-dialog
         v-if="currentActivity && writeAssessmentDialog"
         v-model="writeAssessmentDialog"
@@ -83,16 +90,18 @@
 import { Component, Vue } from 'vue-property-decorator';
 import RemoteServices from '@/services/RemoteServices';
 import Activity from '@/models/activity/Activity';
-import { show } from 'cli-cursor';
 import Enrollment from '@/models/enrollment/Enrollment';
+import EnrollmentDialog from './EnrollmentDialog.vue';
 import Assessment from '@/models/assessment/Assessment';
 import { stringToDate } from '@/services/ConvertDateService';
 import Participation from '@/models/participation/Participation';
 import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
 
 @Component({
-  components: { 'assessment-dialog': AssessmentDialog },
-  methods: { show },
+  components: {
+    'assessment-dialog': AssessmentDialog,
+    'enrollment-dialog': EnrollmentDialog,
+  },
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
@@ -106,6 +115,10 @@ export default class VolunteerActivitiesView extends Vue {
   writeAssessmentDialog: boolean = false;
 
   search: string = '';
+
+  currentEnrollment: Enrollment | null = null;
+  createEnrollmentDialog: boolean = false;
+
   headers: object = [
     {
       text: 'Name',
@@ -231,9 +244,21 @@ export default class VolunteerActivitiesView extends Vue {
     return applicationDeadline > now;
   }
 
-  newEnrollment() {
-    //Call dialog and other function to create enrollment
-    console.log('click');
+  newEnrollment(activity: Activity) {
+    if (activity.id != null) {
+      this.currentEnrollment = new Enrollment();
+      this.currentEnrollment.activityId = activity.id;
+      this.createEnrollmentDialog = true;
+    }
+  }
+
+  onCloseEnrollmentDialog() {
+    this.currentEnrollment = null;
+    this.createEnrollmentDialog = false;
+  }
+
+  async onSaveEnrollment() {
+    console.log('save enrollment');
   }
 
   newAssessment(activity: Activity) {
