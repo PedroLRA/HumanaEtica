@@ -77,8 +77,18 @@ export default class EnrollmentDialog extends Vue {
     return this.cypressCondition || this.editEnrollment.motivation.length >= 10;
   }
 
-  createEnrollment() {
-    console.log('createEnrollment click');
+  async createEnrollment() {
+    if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+      try {
+        const result = await RemoteServices.createEnrollment(
+          this.$store.getters.getUser.id,
+          this.editEnrollment,
+        );
+        this.$emit('save-enrollment', result);
+      } catch (error) {
+        await this.$store.dispatch('error', error);
+      }
+    }
   }
 }
 </script>
