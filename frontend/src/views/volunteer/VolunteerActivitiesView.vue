@@ -59,8 +59,8 @@
         v-if="currentActivity && writeAssessmentDialog"
         v-model="writeAssessmentDialog"
         :activity="currentActivity"
-        v-on:save-activity="onSaveAssessment"
-        v-on:close-activity-dialog="onCloseAssessmentDialog"
+        v-on:save-assessment="onSaveAssessment"
+        v-on:close-assessment-dialog="onCloseAssessmentDialog"
       />
     </v-card>
   </div>
