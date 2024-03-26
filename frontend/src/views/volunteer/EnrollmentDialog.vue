@@ -34,7 +34,7 @@
           Close
         </v-btn>
         <v-btn
-        v-if="canSave"
+          v-if="canSave"
           color="blue-darken-1"
           variant="text"
           @click="createEnrollment"
@@ -58,7 +58,6 @@ Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
 @Component({
   methods: { ISOtoString },
 })
-
 export default class EnrollmentDialog extends Vue {
   @Model('dialog', Boolean) dialog!: boolean;
   @Prop({ type: Enrollment, required: true }) readonly enrollment!: Enrollment;

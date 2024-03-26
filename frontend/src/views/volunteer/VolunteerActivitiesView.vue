@@ -69,7 +69,7 @@
         </template>
       </v-data-table>
       <enrollment-dialog
-        v-if="currentEnrollment && createEnrollmentDialog"
+        v-if="createEnrollmentDialog"
         v-model="createEnrollmentDialog"
         :enrollment="currentEnrollment"
         v-on:save-enrollment="onSaveEnrollment"
@@ -245,7 +245,7 @@ export default class VolunteerActivitiesView extends Vue {
   }
 
   newEnrollment(activity: Activity) {
-    if (activity.id != null) {
+    if (activity.id !== null) {
       this.currentEnrollment = new Enrollment();
       this.currentEnrollment.activityId = activity.id;
       this.createEnrollmentDialog = true;
