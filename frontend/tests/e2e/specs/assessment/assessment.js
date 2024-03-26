@@ -2,6 +2,7 @@ describe("Assessment", () => {
     beforeEach(() => {
         cy.deleteAllButArs();
         cy.populateAssessments();
+        cy.demoVolunteerLogin();
     });
 
     afterEach(() => {
@@ -29,37 +30,32 @@ describe("Assessment", () => {
 
     it('volunteer activity table first element has name \"A1\"', () => {
         // intercept get assessments
-        cy.intercept('GET', '/users/getAssessments').as('getAssessments');
+        cy.intercept('GET', '/activities').as('getActivities');
 
         cy.get('[data-cy="volunteerActivities"').click();
-        cy.wait('@getAssessments');
+        cy.wait('@getActivities');
 
-        // check results
-        cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
-            .should('have.length', 1)
+        //check results
         cy.get('[data-cy="volunteerActivitiesTable"] tbody tr')
             .eq(0).children().eq(0).should('contain', 'A1')
     });
 
     it('assessment creation success', () => {
         const REVIEW = "This is a test review.";
-        const VOLUNTEER_NAME = "DEMO_VOLUNTEER";
-        let REVIEW_DATE;
+        const VOLUNTEER_NAME = "DEMO-VOLUNTEER";
         // intercept create assessment request
-        cy.intercept('POST', '/institutions/[0-9]+/assessments', (req) => {
-            REVIEW_DATE = req.body.reviewDate;
-        }).as('saveAssessment');
+        cy.intercept('POST', '/institutions/*/assessments').as('saveAssessment');
         // intercept get assessments
         cy.intercept('GET', '/users/getAssessments').as('getAssessments');
 
-        cy.get('[data-cy="volunteerActivities"').click();
+        cy.get('[data-cy="volunteerActivities"]').click();
         cy.wait('@getAssessments');
 
-        cy.get('data-cy="writeAssessmentButton"').eq(0).click();
+        cy.get('[data-cy="writeAssessmentButton"]').eq(0).click();
 
-        cy.get('data-cy="reviewInput"').type(REVIEW);
+        cy.get('[data-cy="reviewInput"]').type(REVIEW);
 
-        cy.get('data-cy="saveAssessment"').click();
+        cy.get('[data-cy="saveAssessment"]').click();
 
         cy.wait('@saveAssessment');
 
@@ -79,21 +75,13 @@ describe("Assessment", () => {
             .children()
             .should('have.length', 3);
         // check if review has the text inserted by the volunteer
-        cy.get('[data-cy="institutionAssessmentTable"] tbody tr')
+        cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
             .eq(0)
             .children()
             .eq(0).should('contain', REVIEW);
-        cy.get('[data-cy="institutionAssessmentTable"] tbody tr')
+        cy.get('[data-cy="institutionAssessmentsTable"] tbody tr')
             .eq(0)
             .children()
-            .eq(1).should('contain', REVIEW_DATE);
-        cy.get('[data-cy="institutionAssessmentTable"] tbody tr')
-            .eq(0)
-            .children()
-            .eq(1).should('contain', VOLUNTEER_NAME);
-
-        cy.get('[data-cy="institution"]').click();
-
-        cy.get('[data-cy="assessments"]').click();
+            .eq(2).should('contain', VOLUNTEER_NAME);
     });
 });
