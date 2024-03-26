@@ -11,7 +11,7 @@ const USER_COLUMNS = "users (user_type, id, creation_date, name, role, state, in
 const AUTH_USERS_COLUMNS = "auth_users (auth_type, id, active, email, username, user_id)";
 const ACTIVITY_COLUMNS = "activity (id, application_deadline, creation_date, description, ending_date, name, participants_number_limit, region, starting_date, state, institution_id) ";
 const ENROLLMENT_COLUMNS = "enrollment (id, enrollment_date_time, motivation, activity_id, volunteer_id)";
-const PARTICIPATION_COLUMNS =  "participation (id, acceptance_date, rating, activity_id, volunteer_id)"
+const PARTICIPATION_COLUMNS =  "participation (id, acceptance_date, rating, activity_id, volunteer_id)";
 
 const now = new Date();
 const tomorrow = new Date(now);
@@ -35,7 +35,7 @@ Cypress.Commands.add('deleteAllButArs', () => {
   cy.task('queryDatabase', {
     query: "DELETE FROM ACTIVITY",
     credentials: credentials,
-  })
+  });
   cy.task('queryDatabase', {
     query: "DELETE FROM AUTH_USERS WHERE NOT (username = 'ars')",
     credentials: credentials,
