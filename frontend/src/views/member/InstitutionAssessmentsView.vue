@@ -48,6 +48,12 @@ export default class InstitutionAssessmentsView extends Vue {
       align: 'left',
       width: '5%',
     },
+    {
+      text: 'VolunteerName',
+      value: 'volunteerName',
+      align: 'left',
+      width: '5%',
+    },
   ];
 
   async created() {
