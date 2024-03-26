@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent width="1300">
+  <v-dialog v-model="dialog" persistent width="600">
     <v-card>
       <v-card-title>
         <span class="headline">
@@ -9,15 +9,13 @@
       <v-card-text>
         <v-form ref="form" lazy-validation>
           <v-row>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="newAssessment.review"
-                :rules="[(v) => !!v || 'Review is required']"
-                data-cy="reviewInput"
-                label="*Review"
-                required
-              ></v-text-field>
-            </v-col>
+            <v-text-field
+              v-model="newAssessment.review"
+              :rules="[(v) => !!v || 'Review is required']"
+              data-cy="reviewInput"
+              label="*Review"
+              required
+            ></v-text-field>
           </v-row>
         </v-form>
       </v-card-text>
@@ -31,7 +29,7 @@
           Close
         </v-btn>
         <v-btn
-          :disabled="!canSave"
+          v-if="canSave"
           color="blue-darken-1"
           data-cy="saveAssessment"
           variant="text"
