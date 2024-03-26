@@ -40,7 +40,7 @@
             </template>
             <span>Report Activity</span>
           </v-tooltip>
-          <v-tooltip v-if="activityHasEnded(item)" bottom>
+          <v-tooltip v-if="satisfiesInvariants(item)" bottom>
             <template v-slot:activator="{ on }">
               <v-icon
                 class="mr-2 action-button"
@@ -66,12 +66,15 @@ import Activity from '@/models/activity/Activity';
 import { show } from 'cli-cursor';
 import Assessment from '@/models/assessment/Assessment';
 import { stringToDate } from '@/services/ConvertDateService';
+import Participation from '@/models/participation/Participation';
 
 @Component({
   methods: { show },
 })
 export default class VolunteerActivitiesView extends Vue {
   activities: Activity[] = [];
+  participatingActivityIds: (number | null)[] = [];
+  assessments: Assessment[] = [];
 
   currentAssessment: Assessment | null = null;
   writeAssessmentDialog: boolean = false;
@@ -145,6 +148,13 @@ export default class VolunteerActivitiesView extends Vue {
     await this.$store.dispatch('loading');
     try {
       this.activities = await RemoteServices.getActivities();
+
+      const participations = await RemoteServices.getVolunteerParticipations();
+      this.participatingActivityIds = participations
+          .map((participation: Participation) => { return participation.activityId; })
+
+      this.assessments = await RemoteServices.getVolunteerAssessments();
+
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -172,10 +182,24 @@ export default class VolunteerActivitiesView extends Vue {
     this.writeAssessmentDialog = true;
   }
 
+  satisfiesInvariants(activity: Activity) {
+    return (
+      this.activityHasEnded(activity) &&
+      this.volunteerParticipatesInActivity(activity)
+    );
+  }
+
   activityHasEnded(activity: Activity) {
     const now = new Date();
     const activityEndDate = stringToDate(activity.formattedEndingDate);
     return activityEndDate !== null && activityEndDate < now;
+  }
+
+  volunteerParticipatesInActivity(activity: Activity) {
+    const activityId = activity.id;
+    return (
+      activityId !== null && this.participatingActivityIds.includes(activityId)
+    );
   }
 }
 </script>
