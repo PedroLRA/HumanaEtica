@@ -1,8 +1,8 @@
 describe('Volunteer', () => {
   beforeEach(() => {
-    cy.demoMemberLogin();
     cy.deleteAllButArs();
     cy.createParticipations();
+    cy.demoMemberLogin();
   });
 
   afterEach(() => {
@@ -19,5 +19,20 @@ describe('Volunteer', () => {
 
     cy.get('[data-cy="institution"]').click();
     cy.get('[data-cy="activities"]').click();
+  });
+
+  it('teste', () => {
+
+    cy.intercept('GET', '/users/*/getInstitution').as('getInstitutions');
+
+    cy.get('[data-cy="institution"]').click();
+
+    cy.get('[data-cy="activities"]').click();
+    cy.wait('@getInstitutions');
+
+    //has 2 activities
+    cy.get('[data-cy="memberActivitiesTable"] tbody tr')
+        .should('have.length', 2)
+
   });
 });
