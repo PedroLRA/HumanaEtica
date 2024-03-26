@@ -12,6 +12,4 @@ import java.util.List;
 @Repository
 @Transactional
 public interface UserRepository extends JpaRepository<User, Integer> {
-	@Query("SELECT 'assessments' FROM Volunteer v WHERE v.id = :volunteerId")
-	List<Assessment> getAssessmentsByVolunteerId(Integer volunteerId);
 }
