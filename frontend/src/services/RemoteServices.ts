@@ -522,6 +522,21 @@ export default class RemoteServices {
     });
   }
 
+  static async registerAssessment(
+    userId: number,
+    assessment: Assessment,
+    institutionId: number | null,
+  ) {
+    return httpClient
+      .post(`/institutions/${institutionId}/assessments`, assessment)
+      .then((response) => {
+        return new Assessment(response.data);
+      })
+      .catch(async (error) => {
+        throw Error(await this.errorMessage(error));
+      });
+  }
+
   // Theme Controller
 
   static async getThemes(): Promise<Theme[]> {

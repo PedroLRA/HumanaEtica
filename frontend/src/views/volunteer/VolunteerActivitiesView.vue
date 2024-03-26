@@ -55,6 +55,13 @@
           </v-tooltip>
         </template>
       </v-data-table>
+      <assessment-dialog
+        v-if="currentActivity && writeAssessmentDialog"
+        v-model="writeAssessmentDialog"
+        :activity="currentActivity"
+        v-on:save-activity="onSaveAssessment"
+        v-on:close-activity-dialog="onCloseAssessmentDialog"
+      />
     </v-card>
   </div>
 </template>
@@ -67,8 +74,10 @@ import { show } from 'cli-cursor';
 import Assessment from '@/models/assessment/Assessment';
 import { stringToDate } from '@/services/ConvertDateService';
 import Participation from '@/models/participation/Participation';
+import AssessmentDialog from '@/views/volunteer/AssessmentDialog.vue';
 
 @Component({
+  components: { 'assessment-dialog': AssessmentDialog },
   methods: { show },
 })
 export default class VolunteerActivitiesView extends Vue {
@@ -77,6 +86,7 @@ export default class VolunteerActivitiesView extends Vue {
   assessments: Assessment[] = [];
 
   currentAssessment: Assessment | null = null;
+  currentActivity: Activity | null = null;
   writeAssessmentDialog: boolean = false;
 
   search: string = '';
@@ -150,11 +160,13 @@ export default class VolunteerActivitiesView extends Vue {
       this.activities = await RemoteServices.getActivities();
 
       const participations = await RemoteServices.getVolunteerParticipations();
-      this.participatingActivityIds = participations
-          .map((participation: Participation) => { return participation.activityId; })
+      this.participatingActivityIds = participations.map(
+        (participation: Participation) => {
+          return participation.activityId;
+        },
+      );
 
       this.assessments = await RemoteServices.getVolunteerAssessments();
-
     } catch (error) {
       await this.$store.dispatch('error', error);
     }
@@ -178,7 +190,7 @@ export default class VolunteerActivitiesView extends Vue {
 
   newAssessment(activity: Activity) {
     console.log(activity);
-    this.currentAssessment = new Assessment();
+    this.currentActivity = activity;
     this.writeAssessmentDialog = true;
   }
 
@@ -200,6 +212,17 @@ export default class VolunteerActivitiesView extends Vue {
     return (
       activityId !== null && this.participatingActivityIds.includes(activityId)
     );
+  }
+
+  onCloseAssessmentDialog() {
+    this.currentActivity = null;
+    this.writeAssessmentDialog = false;
+  }
+
+  async onSaveAssessment(assessment: Assessment) {
+    this.onCloseAssessmentDialog();
+    this.assessments = this.assessments.filter((a) => a.id !== assessment.id);
+    this.assessments.unshift(assessment);
   }
 }
 </script>
