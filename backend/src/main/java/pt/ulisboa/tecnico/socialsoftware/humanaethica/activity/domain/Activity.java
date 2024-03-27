@@ -30,7 +30,6 @@ public class Activity {
     private LocalDateTime startingDate;
     private LocalDateTime endingDate;
     private LocalDateTime applicationDeadline;
-    private Integer numberOfEnrollments;
     
     @Enumerated(EnumType.STRING)
     private Activity.State state = Activity.State.APPROVED;
@@ -60,7 +59,6 @@ public class Activity {
         setStartingDate(DateHandler.toLocalDateTime(activityDto.getStartingDate()));
         setEndingDate(DateHandler.toLocalDateTime(activityDto.getEndingDate()));
         setApplicationDeadline(DateHandler.toLocalDateTime(activityDto.getApplicationDeadline()));
-        setNumberOfEnrollments(activityDto.getNumberOfEnrollments());
 
         for (Theme theme : themes) {
             addTheme(theme);
@@ -158,10 +156,6 @@ public class Activity {
 
     public Integer getNumberOfEnrollments() {
         return this.enrollments.size();
-    }
-
-    public void setNumberOfEnrollments(Integer numberOfEnrollments) {
-        this.numberOfEnrollments = numberOfEnrollments;
     }
 
     public void setEnrollments(List<Enrollment> enrollments) {
