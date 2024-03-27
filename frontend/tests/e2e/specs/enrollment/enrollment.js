@@ -27,7 +27,7 @@ describe('Volunteer', () => {
     cy.get('[data-cy="memberActivitiesTable"] tbody tr')
       .eq(0)
       .children()
-      .eq(10)
+      .eq(11)
       .should('have.text', 0);
     cy.get('[data-cy="showEnrollments"]').eq(0).click();
     //checking if the activity enrollments table is empty

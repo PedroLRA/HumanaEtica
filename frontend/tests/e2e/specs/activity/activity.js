@@ -55,7 +55,7 @@ describe('Activity', () => {
       .should('have.length', 1)
       .eq(0)
       .children()
-      .should('have.length', 13);
+      .should('have.length', 14);
     cy.get('[data-cy="memberActivitiesTable"] tbody tr')
       .eq(0)
       .children()
