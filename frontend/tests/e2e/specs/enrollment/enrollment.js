@@ -66,7 +66,7 @@ describe('Volunteer', () => {
     cy.get('[data-cy="memberActivitiesTable"] tbody tr')
       .eq(0)
       .children()
-      .eq(10)
+      .eq(11)
       .should('have.text', 1);
     // click showEnrollments
     cy.get('[data-cy="showEnrollments"]').eq(0).click();
@@ -79,7 +79,7 @@ describe('Volunteer', () => {
     cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
       .eq(0)
       .children()
-      .eq(0)
+      .eq(1)
       .should('contain', MOTIVATION);
 
     cy.logout();
