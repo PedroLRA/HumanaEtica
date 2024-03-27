@@ -163,8 +163,9 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     this.selectParticipationDialog = false;
   }
 
-  async onSaveParticipation(activity: Activity) {
-    
+  async onSaveParticipation() {
+    this.currentEnrollment = null;
+    this.selectParticipationDialog = false;
   }
 
 

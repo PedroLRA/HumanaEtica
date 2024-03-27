@@ -26,6 +26,12 @@
           >
             Close
           </v-btn>
+          <v-btn
+          color="blue"
+          @click="createParticipation"
+        >
+          Save
+        </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -39,6 +45,7 @@
   import Activity from '@/models/activity/Activity';
   import Theme from '@/models/theme/Theme';
   import Enrollment from '@/models/enrollment/Enrollment';
+import RemoteServices from '@/services/RemoteServices';
 
 
   Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
@@ -50,13 +57,35 @@
     @Model('dialog', Boolean) dialog!: boolean;
     @Prop({ type: Activity, required: true }) readonly activity!: Activity;
     @Prop({ type: Array, required: true }) readonly themes!: Theme[];
-    @Prop({ type: Enrollment, required:true}) readonly enrollment!: Enrollment
+    @Prop({ type: Enrollment, required:true}) enrollment!: Enrollment //I know it should be readonly to ensure good parent-child communication but cannot create updateEnrollment service
   
+
+    editActivity: Activity = new Activity(this.activity);
+    editEnrollment: Enrollment = new Enrollment(this.enrollment);
+
+
     rating: string = '';
-  
-    async updateActivity() {
-      // Method for updating activity or selecting participant
-      // Implement your logic here
+
+
+    async createParticipation() {
+      // Method for creating new Participation
+      if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
+        if(this.rating == '' || parseInt(this.rating) > 0 && parseInt(this.rating) <= 5){
+          try{
+          this.editEnrollment.participating = true; //this one would be the one for the update
+          //this.enrollment.participating = true;
+          this.editActivity.numberOfParticipations = this.editActivity.numberOfParticipations +1;
+    
+          const result =  await RemoteServices.updateActivityAsMember(
+                Number(this.editActivity.id),
+                this.editActivity,
+              )
+              this.$emit('save-participation');
+          } catch(error) {
+          await this.$store.dispatch('error', error);
+        }
+        } 
+      }
     }
   }
   </script>
