@@ -79,19 +79,19 @@ Cypress.Commands.add('createDemoEntities', () => {
 
 Cypress.Commands.add('createEnrollmentTestEntities', () => {
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + ACTIVITIES_COLUMNS + generateActivityTuple(1, "2024-08-06 17:58:21.402146", "Enrollment is open", "2024-08-08 17:58:21.402146", "A1", 1, 1),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(1, "2024-08-06 17:58:21.402146", "Enrollment is open", "2024-08-08 17:58:21.402146", "A1", 1, 1),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + ACTIVITIES_COLUMNS + generateActivityTuple(2, "2024-08-06 17:58:21.402146", "Enrollment is open and it is already enrolled", "2024-08-08 17:58:21.402146", "A2", 2, 1),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(2, "2024-08-06 17:58:21.402146", "Enrollment is open and it is already enrolled", "2024-08-08 17:58:21.402146", "A2", 2, 1),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + ACTIVITIES_COLUMNS + generateActivityTuple(3, "2024-02-06 17:58:21.402146", "Enrollment is closed", "2024-08-08 17:58:21.402146", "A3", 3, 1),
+    query: "INSERT INTO " + ACTIVITY_COLUMNS + generateActivityTuple(3, "2024-02-06 17:58:21.402146", "Enrollment is closed", "2024-08-08 17:58:21.402146", "A3", 3, 1),
     credentials: credentials,
   })
   cy.task('queryDatabase', {
-    query: "INSERT INTO " + ENROLLMENTS_COLUMNS + generateEnrollmentTuple(5, "2024-02-06 18:51:37.595713", "sql-inserted-motivation", 2, 3),
+    query: "INSERT INTO " + ENROLLMENT_COLUMNS + generateEnrollmentTuple(5, "2024-02-06 18:51:37.595713", "sql-inserted-motivation", 2, 3),
     credentials: credentials,
   })
 })
