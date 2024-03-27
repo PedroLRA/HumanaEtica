@@ -8,6 +8,7 @@ export default class Volunteer {
   username!: boolean;
   creationDate!: string;
   doc!: Document;
+  
 
   constructor(jsonObj?: Volunteer) {
     if (jsonObj) {
@@ -17,6 +18,7 @@ export default class Volunteer {
       this.username = jsonObj.username;
       this.creationDate = ISOtoString(jsonObj.creationDate);
       this.doc = jsonObj.doc;
+      
     }
   }
 }
