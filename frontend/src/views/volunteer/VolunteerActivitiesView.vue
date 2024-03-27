@@ -272,7 +272,8 @@ export default class VolunteerActivitiesView extends Vue {
   satisfiesInvariants(activity: Activity) {
     return (
       this.activityHasEnded(activity) &&
-      this.volunteerParticipatesInActivity(activity) && this.volunteerHasNotAssessedThisInstitution(activity)
+      this.volunteerParticipatesInActivity(activity) &&
+      this.volunteerHasNotAssessedThisInstitution(activity)
     );
   }
 
@@ -291,8 +292,10 @@ export default class VolunteerActivitiesView extends Vue {
 
   volunteerHasNotAssessedThisInstitution(activity: Activity) {
     const institutionId = activity.institution.id;
-    const institutionIds = this.assessments.map((assessment: Assessment) => { return assessment.institutionId; });
-    return !institutionIds.includes(<number>institutionId);
+    const institutionIds = this.assessments.map((assessment: Assessment) => {
+      return assessment.institutionId;
+    });
+    return !institutionIds.includes(Number(institutionId));
   }
 
   onCloseAssessmentDialog() {
