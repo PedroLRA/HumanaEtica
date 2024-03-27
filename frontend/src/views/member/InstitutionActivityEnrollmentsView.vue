@@ -67,6 +67,7 @@ import Activity from '@/models/activity/Activity';
 import Enrollment from '@/models/enrollment/Enrollment';
 import Theme from '@/models/theme/Theme';
 import ParticipantSelectionDialog from './ParticipationSelectionDialog.vue';
+import Participation from '@/models/participation/Participation';
 
 @Component({
   components: {
@@ -163,7 +164,12 @@ export default class InstitutionActivityEnrollmentsView extends Vue {
     this.selectParticipationDialog = false;
   }
 
-  async onSaveParticipation() {
+  async onSaveParticipation(participation: Participation) {
+    this.activity.numberOfParticipations = this.activity.numberOfParticipations +1;
+    //this.enrollments.find( enrollment => participation.volunteerId);
+    if (this.currentEnrollment) {
+    this.currentEnrollment.participating = true;
+    }
     this.currentEnrollment = null;
     this.selectParticipationDialog = false;
   }

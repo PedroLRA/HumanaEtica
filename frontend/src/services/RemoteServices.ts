@@ -401,6 +401,8 @@ export default class RemoteServices {
       });
   }
 
+
+
   static async registerActivity(userId: number, activity: Activity) {
     return httpClient
       .post('/activities', activity)
@@ -496,6 +498,18 @@ export default class RemoteServices {
         throw Error(await this.errorMessage(error));
       });
   }
+ // Participation Controller
+
+  static async registerParticipation(participation: Participation, activityId: number) {
+    return httpClient
+      .post(`/activities/${activityId}/participations`, participation)
+      .then((response) => {
+        return new Participation(response.data);
+      })
+      .catch(async (error) => {
+        throw Error(await this.errorMessage(error));
+      });
+  }
 
   static async createEnrollment(userId: number, enrollment: Enrollment) {
     return httpClient
@@ -507,6 +521,7 @@ export default class RemoteServices {
         throw Error(await this.errorMessage(error));
       });
   }
+
 
   // Assessment Controller
 

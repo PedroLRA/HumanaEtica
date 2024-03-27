@@ -7,6 +7,7 @@ export default class Enrollment {
   activityId!: number;
   volunteerName!: string;
   participating!: boolean;
+  volunteerId!: number; 
 
   constructor(jsonObj?: Enrollment) {
     if (jsonObj) {
@@ -16,6 +17,7 @@ export default class Enrollment {
       this.activityId = jsonObj.activityId;
       this.volunteerName = jsonObj.volunteerName;
       this.participating = jsonObj.participating;
+      this.volunteerId = jsonObj.volunteerId;
     }
   }
 }

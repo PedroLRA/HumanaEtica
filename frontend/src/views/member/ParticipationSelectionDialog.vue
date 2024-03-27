@@ -46,6 +46,7 @@
   import Theme from '@/models/theme/Theme';
   import Enrollment from '@/models/enrollment/Enrollment';
 import RemoteServices from '@/services/RemoteServices';
+import Participation from '@/models/participation/Participation';
 
 
   Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
@@ -57,12 +58,15 @@ import RemoteServices from '@/services/RemoteServices';
     @Model('dialog', Boolean) dialog!: boolean;
     @Prop({ type: Activity, required: true }) readonly activity!: Activity;
     @Prop({ type: Array, required: true }) readonly themes!: Theme[];
-    @Prop({ type: Enrollment, required:true}) enrollment!: Enrollment //I know it should be readonly to ensure good parent-child communication but cannot create updateEnrollment service
+    @Prop({ type: Enrollment, required:true}) readonly enrollment!: Enrollment //I know it should be readonly to ensure good parent-child communication but cannot create updateEnrollment service
   
 
     editActivity: Activity = new Activity(this.activity);
     editEnrollment: Enrollment = new Enrollment(this.enrollment);
 
+    newParticipation: Participation = new Participation();
+
+    //Number id = this.
 
     rating: string = '';
 
@@ -72,15 +76,13 @@ import RemoteServices from '@/services/RemoteServices';
       if ((this.$refs.form as Vue & { validate: () => boolean }).validate()) {
         if(this.rating == '' || parseInt(this.rating) > 0 && parseInt(this.rating) <= 5){
           try{
-          this.editEnrollment.participating = true; //this one would be the one for the update
-          //this.enrollment.participating = true;
-          this.editActivity.numberOfParticipations = this.editActivity.numberOfParticipations +1;
-    
-          const result =  await RemoteServices.updateActivityAsMember(
-                Number(this.editActivity.id),
-                this.editActivity,
-              )
-              this.$emit('save-participation');
+          this.newParticipation.rating = Number(this.rating);
+          this.newParticipation.activityId = this.activity.id;
+          this.newParticipation.volunteerId = this.enrollment.volunteerId;
+          
+            const result = await RemoteServices.registerParticipation(this.newParticipation, Number(this.activity.id));
+
+              this.$emit('save-participation', result);
           } catch(error) {
           await this.$store.dispatch('error', error);
         }
