@@ -15,23 +15,25 @@ describe('Volunteer', () => {
     // demo login as member
     cy.demoMemberLogin();
     // intercept requests
-    cy.intercept('GET', '/activities').as('getActivities');
-
+    cy.intercept('GET', '/activities/*/enrollments').as(
+      'getActivityEnrollments',
+    );
     // visit the activities page
-    cy.visit('/activities');
-
-    // wait for activities to load
-    cy.wait('@getActivities');
-
+    cy.get('[data-cy="institution"]').click(); // Click on the "Institution" button to open the menu
+    cy.get('[data-cy="activities"]').click();
     // verify the table has 3 instances
     cy.get('[data-cy=memberActivitiesTable] tbody tr').should('have.length', 3);
-
     // verify the first activity has 0 Applications
-    cy.get('[data-cy=memberActivitiesTable] tbody tr')
-      .first()
-      .within(() => {
-        cy.get('[data-cy=applications]').should('contain', '0');
-      });
+    cy.get('[data-cy="memberActivitiesTable"] tbody tr')
+      .eq(0)
+      .children()
+      .eq(10)
+      .should('have.text', 0);
+    cy.get('[data-cy="showEnrollments"]').eq(0).click();
+    //checking if the activity enrollments table is empty
+    cy.get('[data-cy="activityEnrollmentsTable"] tbody')
+      .find('.v-data-table__empty-wrapper')
+      .should('exist');
     cy.logout();
 
     // demo login as volunteer
@@ -54,30 +56,31 @@ describe('Volunteer', () => {
     // demo login as member
     cy.demoMemberLogin();
     // intercept requests
-    cy.intercept('GET', '/activities').as('getActivities');
-
+    cy.intercept('GET', '/activities/*/enrollments').as(
+      'getActivityEnrollments',
+    );
     // visit the activities page
-    cy.visit('/activities');
-
-    // wait for activities to load
-    cy.wait('@getActivities');
-
+    cy.get('[data-cy="institution"]').click(); // Click on the "Institution" button to open the menu
+    cy.get('[data-cy="activities"]').click();
     // verify the first activity has 1 Application
-    cy.get('[data-cy=memberActivitiesTable] tbody tr')
-      .first()
-      .within(() => {
-        cy.get('[data-cy=applications]').should('contain', '1');
-      });
-
+    cy.get('[data-cy="memberActivitiesTable"] tbody tr')
+      .eq(0)
+      .children()
+      .eq(10)
+      .should('have.text', 1);
     // click showEnrollments
-    cy.get('[data-cy="showEnrollments"]').click();
-
+    cy.get('[data-cy="showEnrollments"]').eq(0).click();
+    cy.wait('@getActivityEnrollments');
     // Verificar que a tabela de enrollments da atividade tem 1 enrollment com a motivação introduzida
+    cy.get('[data-cy="activityEnrollmentsTable"] tbody tr').should(
+      'have.length',
+      1,
+    );
     cy.get('[data-cy="activityEnrollmentsTable"] tbody tr')
-      .should('have.length', 1)
-      .within(() => {
-        cy.get('[data-cy="motivation"]').should('contain', MOTIVATION);
-      });
+      .eq(0)
+      .children()
+      .eq(0)
+      .should('contain', MOTIVATION);
 
     cy.logout();
   });
